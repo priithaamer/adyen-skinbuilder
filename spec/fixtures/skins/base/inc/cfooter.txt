@@ -1,0 +1,15 @@
+	</div>
+	<div id="archives">&nbsp;
+		<h3>Home</h3>
+		<h3>Book online</h3>
+		<h3>Flight Info</h3>
+		<h3>Service</h3>
+		<h3>Offers</h3>
+		<h3>Hotel</h3>
+		<h3>Car Rental</h3>
+
+	</div>
+	<div id="top1"></div>
+	<div id="top2"></div>
+	<div id="top3"></div>
+</div>
