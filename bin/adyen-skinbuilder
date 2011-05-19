@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'adyen-skinbuilder'
+
+Adyen::SkinBuilder::Server.run(:skin => 'lE00qtob')
