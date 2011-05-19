@@ -19,7 +19,7 @@ Make sure you have directory with basic Adyen skin structure, that looks somethi
 
 To view something that is very much similar to the end result generated in Adyen, fire up adyen-skinbuilder rack server, that does the template rendering on your local machine:
 
-    adyen-skinbuilder ~/Documents/DV3tf95f
+    $ adyen-skinbuilder ~/Documents/DV3tf95f
 
 And go to http://localhost:8888 to see the generated page.
 
