@@ -8,8 +8,6 @@ module Adyen
         opts = Slop.parse do
           banner "\nUsage: adyen-skinbuilder [options] path\n"
         
-          # TODO: do not launch server if skin code is not provided or found in any other way
-          on :s, :skin, 'Adyen skin code. Example: DV3tf95f', true, :optional => false
           on :P, :port, 'Port, defaults to 8888', true, :default => 8888
           on :l, :log, 'Show server log'
           on :V, :version, 'Print the version' do
@@ -33,7 +31,6 @@ module Adyen
         
         Adyen::SkinBuilder::Server.run({
           :port => opts[:port],
-          :skin => opts[:skin],
           :log => opts[:log],
           :skins_directory => File.expand_path(opts.parse.last)
         })

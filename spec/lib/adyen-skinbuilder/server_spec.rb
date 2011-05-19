@@ -7,8 +7,7 @@ describe 'SkinBuilder server' do
 
   def app
     Adyen::SkinBuilder::Server.app(
-      :skin => 'DV3tf95f',
-      :skins_directory => File.expand_path(File.join(File.dirname(__FILE__), '../../fixtures/skins'))
+      :skins_directory => File.expand_path(File.join(File.dirname(__FILE__), '../../fixtures/skins/DV3tf95f'))
     )
   end
   

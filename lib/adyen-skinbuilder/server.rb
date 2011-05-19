@@ -4,9 +4,9 @@ module Adyen
   module SkinBuilder
     class SkeletonAdapter
       
-      def initialize(skins_directory, skin)
-        @skins_directory = skins_directory
-        @skin = skin
+      def initialize(skins_directory)
+        @skins_directory = File.dirname(skins_directory)
+        @skin = File.basename(skins_directory)
       end
       
       def call(env)
@@ -43,20 +43,20 @@ module Adyen
           handler.run(self.app(config), :Port => config[:port], :AccessLog => [])
         end
       
-        def app(config)
+        def app(config = {})
           Rack::Builder.app do
             use Rack::CommonLogger if config[:log]
             use Rack::Head
             
             # TODO: process Adyen default files at "/hpp"
-            map("/sf/#{config[:skin]}") do
+            map("/sf/#{File.basename(config[:skins_directory])}") do
               run Rack::Cascade.new([
-                Rack::File.new(File.join(config[:skins_directory], config[:skin])),
-                Rack::File.new(File.join(config[:skins_directory], 'base'))
+                Rack::File.new(config[:skins_directory]),
+                Rack::File.new(File.join(File.dirname(config[:skins_directory]), 'base'))
               ])
             end
         
-            map('/') { run Adyen::SkinBuilder::SkeletonAdapter.new(config[:skins_directory], config[:skin]) }
+            map('/') { run Adyen::SkinBuilder::SkeletonAdapter.new(config[:skins_directory]) }
           end
         end
       end
