@@ -1,4 +1,4 @@
-Simple Rack server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles (not yet implemented):
+Simple Rack server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles (not yet implemented).
 
 ## Install
 
@@ -23,4 +23,4 @@ To view something that is very much similar to the end result generated in Adyen
 
 And go to http://localhost:8888 to see the generated page.
 
-See `adyen-skinbuilder --help` for options when running this server.
+See `adyen-skinbuilder --help` for more options to run server on different port or with logging etc.
