@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     adyen-skinbuilder (0.0.1)
+      rack (>= 1.2)
+      slop (>= 1.6.0)
 
 GEM
   remote: http://rubygems.org/
@@ -18,6 +20,7 @@ GEM
     rspec-expectations (2.5.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.5.0)
+    slop (1.6.0)
 
 PLATFORMS
   ruby

@@ -3,4 +3,4 @@
 require 'rubygems'
 require 'adyen-skinbuilder'
 
-Adyen::SkinBuilder::Server.run(:skin => 'lE00qtob')
+Adyen::SkinBuilder::Launcher.ignition(*ARGV)

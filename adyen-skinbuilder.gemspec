@@ -16,6 +16,9 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
   
+  s.add_dependency 'rack', '>= 1.2'
+  s.add_dependency 'slop', '>= 1.6.0'
+  
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rack-test'
 end
