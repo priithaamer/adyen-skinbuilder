@@ -12,8 +12,5 @@ TODO
 ### file://lib/adyen-skinbuilder/server.rb
 
 * TODO: add locale support so files like inc/cheader_[locale].txt will be included correctly (25)
-
-### file://lib/adyen-skinbuilder/launcher.rb
-
-* TODO: do not launch server if skin code is not provided or found in any other way (11)
+* TODO: process Adyen default files at "/hpp" (51)
 
