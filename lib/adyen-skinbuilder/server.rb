@@ -6,6 +6,7 @@ module Adyen
       
       def initialize(skins_directory)
         @skins_directory = File.dirname(skins_directory)
+        @order_data_file = 
         @skin = File.basename(skins_directory)
       end
       
@@ -15,12 +16,16 @@ module Adyen
         %w(cheader pmheader pmfooter customfields cfooter).each do |inc|
           body = body.gsub(%r{\<!-- ### inc\/#{inc}_\[locale\].txt or inc\/#{inc}.txt \(fallback\) ### --\>}, get_inc(inc))
         end
-        body = body.gsub(%r{\<!-- Adyen Main Content --\>}, File.read(File.join(File.dirname(__FILE__), '../../adyen/main_content.html')))
+        body = body.gsub(%r{\<!-- Adyen Main Content --\>}, main_content)
         
         [200, {'Content-Type' => 'text/html'}, [body]]
       end
       
       private
+      
+      def main_content
+        File.read(File.join(File.dirname(__FILE__), '../../adyen/main_content.html')).gsub(%r{\<!-- Adyen Order Data --\>}, get_inc('order_data'))
+      end
       
       # TODO: add locale support so files like inc/cheader_[locale].txt will be included correctly
       def get_inc(filename)
