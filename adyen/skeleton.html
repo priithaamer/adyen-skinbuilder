@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Page Title</title>
+  <title>Please enter your payment details</title>
   
-  <link rel="stylesheet" media="screen" type="text/css" href="/hpp/css/reset.css" />
+  <link rel="stylesheet" media="screen" type="text/css" href="https://test.adyen.com/hpp/css/reset.css" />
   <link rel="stylesheet" media="screen" type="text/css" href="/sf/$skinCode/css/screen.css" />
   <link rel="stylesheet" media="print" type="text/css" href="/sf/$skinCode/css/print.css" />
-  <script type="text/javascript" src="/hpp/js/default.js"></script>
+  <script type="text/javascript" src="https://test.adyen.com/hpp/js/default.js"></script>
   
   <script type="text/javascript" src="/sf/$skinCode/js/custom.js"></script>
   <!--[if lt IE 7]>
@@ -16,6 +16,16 @@
   <![endif]-->
 </head>
 <body>
+  <script type="text/javascript">
+  //<![CDATA[	
+  	var clientIPAddress = "127.0.0.1";
+
+  	var config = new Array();
+  	config["pmmanimation"] = 2;
+
+  //]]>
+  </script>
+  
   <!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->
   <form id="pageform" action="" method="post" onsubmit="return formValidate(this);">
   <script type="text/javascript">

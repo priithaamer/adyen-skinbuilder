@@ -1,1 +1,621 @@
-== adyen main content ==
+<script type="text/javascript">
+    //<![CDATA[
+    /* Form validation */
+    var requiredFields = new Array();
+    var fieldLinks = new Array();
+    var errorMessages = new Array();
+    var errorAreas = new Array();
+    var validationFunctions = new Array();
+    var details = new Array();
+    
+    errorMessages["default"] = new Array();
+    requiredFields["default"] = new Array();
+
+    var maySubmitOnlyOnce=true;
+    
+    requiredFields["default"].push("brandCode");
+    errorMessages["default"]["brandCode"] = "Please enter your payment details";
+    errorMessages["default"]["submitonce"] = "Your request is being processed, please wait....";
+    
+    var locked = false;
+    var _valFunc = new function() {};
+    
+    var displayAmountExtras = new Object();
+    
+    function show(detail, actionURL, group, brandCode) {
+    
+    	if(config["pmmanimation"] != 1) {
+    		if(locked) { return false; }
+    		locked = true;
+    		setTimeout('locked=false',1000);
+    	}
+    	
+    	document.forms["pageform"].action=actionURL;
+    	document.forms["pageform"].onsubmit=null;
+    
+    	if(document.forms["pageform"].addEventListener) {
+    	  document.forms["pageform"].removeEventListener('submit',_valFunc ,false);
+    	  document.forms["pageform"].addEventListener('submit',_valFunc = function(e) { 
+    	    result = formValidate(document.forms["pageform"] ,group); 
+    		if(result == false) {
+    		  e=e||event;
+    		  e.preventDefault? e.preventDefault() : e.returnValue = false; 
+    		} 
+    	  },false);
+    	} else {
+    	  document.forms["pageform"].detachEvent('onsubmit',_valFunc);
+    	  document.forms["pageform"].attachEvent('onsubmit',_valFunc = function(e) { 
+    		result = formValidate(document.forms["pageform"] ,group); 
+    		if(result == false) {
+    		  e=e||event;
+    		  e.preventDefault? e.preventDefault() : e.returnValue = false; 
+    		}
+    	  });
+    	}
+    
+    	document.forms["pageform"]["brandCode"].value=brandCode;
+    	document.getElementById('extraCostAmount').innerHTML = displayAmountExtras[group];
+    	
+    	if(detail != "") {
+        	detail.slideit();
+        	for (i = 0; i < details.length; i++) { 	
+        		if (details[i].divId != detail.divId) {
+        			details[i].slideup();
+        		}
+        	}
+    	}
+    	return false;
+    }
+    
+    
+    
+    
+    	addOnLoad(preventEnterSubmit);
+    
+    
+    
+    //]]>
+</script>
+<script type="text/javascript" src="https://test.adyen.com/hpp/js/animatedcollapse.js"></script>
+<script type="text/javascript" src="https://test.adyen.com/hpp/js/cc.js"></script>
+<input type="hidden" id="brandCode" name="brandCode" value="" />
+
+<h2 id="stageheader">Please Enter your Payment Details</h2>
+
+<div id="orderDataWrapper">
+  <div id="orderDataHeader">Order Details</div>
+  <div id="orderData">
+    <table class="shopping_cart" cellspacing="0">
+    <thead>
+    <tr>
+    <th class="product bordered">Product</th>
+    <th class="price bordered">Price</th>
+    </tr>
+    </thead>
+      <tr>
+      <td class="product bordered"><div>Edicy site subscription 90 days: priit.kraftal.com</div></td>
+      <td class="price bordered">€36.00</td>
+      </tr>
+    <tr id="exp_subtotal">
+    <td class="total">Subtotal</td>
+    <td class="price" nowrap="nowrap">€36.00</td>
+    </tr>
+    <tr id="exp_tax">
+    <td class="total">20% VAT</td>
+    <td class="price" nowrap="nowrap">€7.20</td>
+    </tr>
+    <tr id="exp_total">
+    <td class="total">Total</td>
+    <td class="price" nowrap="nowrap">€43.20</td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+</div>
+<div id="displayAmount">
+  Total payment amount EUR 43.20 <span id="extraCostAmount"></span>
+</div>
+
+<ul id="paymentMethods">
+  <li style="list-style-type: none;">
+	  <button type="submit" name="brandName" value="VISA" class="imgB pmB pmBvisa" onclick="return show(collapsevisa, 'completeCard.shtml', 'card', 'visa');">VISA</button>
+	  <span id="pmmextracosts-visa" class="pmmextracosts"></span><span id="pmvisadescription" class="pmmdescription"></span>
+		<div id="pmmdetails-visa" class="pmmdetails">
+			<script type="text/javascript">
+          //<![CDATA[
+          /* Form validation */
+          requiredFields["card"] = new Array();
+          requiredFields["card"].push("cardHolderName");
+          requiredFields["card"].push("cardNumber");
+          requiredFields["card"].push("expiryMonth");
+          requiredFields["card"].push("expiryYear");
+          errorMessages["card"] = new Array();
+          errorMessages["card"]["cardHolderName"] = "Card Holder Name missing";
+          errorMessages["card"]["cardNumber"] = "Card Number invalid or missing";
+          errorMessages["card"]["expiryMonth"] = "Expiry Month missing";
+          errorMessages["card"]["expiryYear"] = "Expiry Year missing";
+          errorMessages["card"]["cvcCode"] = "CVC/CVV/CID missing";
+          errorMessages["card"]["generic"] = "Please enter your card details";
+          
+          
+          	var cvcinfo = new Array();
+          	cvcinfo["mc"] =	"<h3>What is CVC?</h3>" + 
+          	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CVC_mini.jpg\" alt=\"CVC location\" />" +
+          						"The Card Validation Code (CVC) is an <i>additional</i> " + 
+          						"three-digit security code that is printed (not embossed) on the back " +
+          						"of your card.</p>" +
+          						"<p>The CVC is an extra security measure to ensure that you are in possession of the card.</p><br style=\"clear: both\" />";
+          	cvcinfo["visa"] =	"<h3>What is CVV?</h3>" + 
+          	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CVV_mini.jpg\" alt=\"CVV location\" />" +
+          						"The Card Verification Value (CVV) is an <i>additional</i> " + 
+          						"three-digit security code that is printed (not embossed) on the back " +
+          						"of your card.</p>" +
+          						"<p>The CVV is an extra security measure to ensure that you are in possession of the card.</p><br style=\"clear: both\" />";
+          	cvcinfo["amex"] =	"<h3>What is CID?</h3>" + 
+          	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CID_mini.jpg\" alt=\"CID location\" />" +
+          						"The Card IDentification (CID) is an <i>additional</i> " + 
+          						"four-digit security code that is printed (not embossed) on the front " +
+          						"of your card.</p>" +
+          						"<p>The CID is an extra security measure to ensure that you are in possession of the card.</p><br style=\"clear: both\" />";
+          	cvcinfo["card"] =	"<h3>What is CVC/CVV/CID?</h3>" + 
+          	                  	"<p>The Card Security Code (CVC/CVV/CID) is an <i>additional</i> " + 
+          						"three or four digit security code that is printed (not embossed) on the front or the back " +
+          						"of your card.</p>" +
+          						"<p>The CVC/CVV/CID is an extra security measure to ensure that you are in possession of the card.</p><br style=\"clear: both\" />";	
+          
+          	var card_types = new Array();
+          	var card_logos = new Array();
+          	var card_displayAmountExtras = new Array();
+          	var card_extras = new Array();
+          	var previousCardNumber ="";
+          	var card_subVariantExtras = new Object();
+          	var card_subVariantExtrasPhrase = new Object();
+          	var originalExtraCostPhrase = document.getElementById('pmmextracosts-visa').innerHTML;
+          	
+          			card_types.push("visa");
+          		card_logos.push("/img/pm/visa");
+          					card_displayAmountExtras.push("");
+          			card_extras.push("");
+          		
+          											card_subVariantExtras['visacorporate'] = "";
+          				card_subVariantExtrasPhrase['visacorporate'] = "";
+          												card_subVariantExtras['travelmoney'] = "";
+          				card_subVariantExtrasPhrase['travelmoney'] = "";
+          												card_subVariantExtras['visabusiness'] = "";
+          				card_subVariantExtrasPhrase['visabusiness'] = "";
+          												card_subVariantExtras['visacredit'] = "";
+          				card_subVariantExtrasPhrase['visacredit'] = "";
+          												card_subVariantExtras['visahipotecario'] = "";
+          				card_subVariantExtrasPhrase['visahipotecario'] = "";
+          												card_subVariantExtras['visapurchasing'] = "";
+          				card_subVariantExtrasPhrase['visapurchasing'] = "";
+          												card_subVariantExtras['visaclassic'] = "";
+          				card_subVariantExtrasPhrase['visaclassic'] = "";
+          												card_subVariantExtras['visaplatinum'] = "";
+          				card_subVariantExtrasPhrase['visaplatinum'] = "";
+          												card_subVariantExtras['visasignature'] = "";
+          				card_subVariantExtrasPhrase['visasignature'] = "";
+          												card_subVariantExtras['electron'] = "";
+          				card_subVariantExtrasPhrase['electron'] = "";
+          												card_subVariantExtras['visacommercialcredit'] = "";
+          				card_subVariantExtrasPhrase['visacommercialcredit'] = "";
+          												card_subVariantExtras['visagold'] = "";
+          				card_subVariantExtrasPhrase['visagold'] = "";
+          												card_subVariantExtras['visa'] = "";
+          				card_subVariantExtrasPhrase['visa'] = "";
+          												card_subVariantExtras['visadebit'] = "";
+          				card_subVariantExtrasPhrase['visadebit'] = "";
+          						
+          		
+          	var baseURL = "/hpp/";
+          	if(baseURL.indexOf(";jsession") != -1) {
+          		baseURL = baseURL.substr(0,baseURL.indexOf(";jsession"));
+          	}
+          	
+          	function validateCcNumber(e, dontHideErrorFrame) {
+          		cardNumber = (document.getElementById('cardNumber').value);
+          		
+          		if(cardNumber.length <= previousCardNumber.length) {
+          			previousCardNumber = cardNumber;
+          			if (cardNumber.length == 0) {
+          				resetExtraCost();
+          			}
+          			return;
+          		}
+          		var l=0;
+          		while(l < previousCardNumber.length) {
+          			if(cardNumber[l] != previousCardNumber[l]) {
+          				previousCardNumber = cardNumber;
+          				return;
+          			} 
+          			l++;
+          		}
+          	
+          		reg = /\s+/g;
+          		cardNumber = cardNumber.replace(reg,'');
+          		
+          		nrOfDigits = cardNumber.length;
+          		
+          		if(nrOfDigits > 19){
+          			ccNumberPresentation(false);
+          			return;
+          		}
+          		
+          		ccNumberPresentation(true,dontHideErrorFrame);
+          		
+          		baseCard = getBaseCard(cardNumber,card_types);
+          		if(baseCard != null) {
+          		    setCardBrand(baseCard, true);
+          		} else if(nrOfDigits > 4) {
+          		    setCardBrand(null, true);
+          			ccNumberPresentation(false);
+          		} else {
+          			setCardBrand(null, false);
+          		}
+          
+          		if (cardNumber.length < 6) {
+          			setExtraCost(baseCard, null);
+          		} else if (cardNumber.length == 6 || cardNumber.length == 9 || cardNumber.length == 12){
+          			_.X("/hpp/binLookup.shtml",function(d,r){
+          				if(r.status != 200 || d.indexOf('"result"') == -1) return false;
+          	            var response=eval("("+d+")");
+          					
+          				if(typeof(response.result)=='undefined') return false;
+          		
+          				if (response.result == 0) {
+          					lookedUpCardType = response.cardType;
+          				} else {
+          					lookedUpCardType = null;	
+          				}
+          				setExtraCost(baseCard, lookedUpCardType);
+          		
+          				return true;
+          	        }, 'bin='+cardNumber+'&'+_.Q(_.G("pageform")));
+          		}
+          		
+          		//show value with white space after four numbers
+          		result = cardNumber.replace(/(\d{4})/g, '$1 ');
+          		result = result.replace(/\s+$/, ''); //remove trailing spaces
+          		
+          		previousCardNumber = result;
+          		document.getElementById('cardNumber').value = result;
+          	}
+          	
+          	function setExtraCost(selectedCard, lookedUpCard) {
+          		var extraCostDisplayed = false;
+          		if (lookedUpCard != null && card_subVariantExtras[lookedUpCard] != null) {
+          			document.getElementById('extraCostAmount').innerHTML = card_subVariantExtras[lookedUpCard];
+          			displayAmountExtras['card'] = card_subVariantExtras[lookedUpCard];
+          			document.getElementById('pmmextracosts-visa').innerHTML = card_subVariantExtrasPhrase[lookedUpCard];
+          			extraCostDisplayed = true;
+          		} else {
+          			        	for(var i = 0; i < card_types.length; ++i) {
+              			if(selectedCard != null && card_types[i] == selectedCard.cardtype && card_subVariantExtras[selectedCard.cardtype] != null) {
+          					document.getElementById('extraCostAmount').innerHTML = card_subVariantExtras[selectedCard.cardtype];
+          					displayAmountExtras['card'] = card_subVariantExtras[selectedCard.cardtype];
+          					document.getElementById('pmmextracosts-visa').innerHTML = card_subVariantExtrasPhrase[selectedCard.cardtype];
+          					extraCostDisplayed = true;
+              			}
+                  	}
+          		}
+          		
+          		if (!extraCostDisplayed) {
+          			resetExtraCost();
+          		}
+          	}
+          	
+          	function resetExtraCost() {
+          		displayAmountExtras['card'] = "";
+          		document.getElementById('extraCostAmount').innerHTML = "";
+          		document.getElementById('pmmextracosts-visa').innerHTML = originalExtraCostPhrase;
+          	}
+          	
+          	function setCardBrand(selectedCard, greyInactive) {
+          
+          		for(var i = 0; i < card_types.length; ++i) {
+          		    var imageId = "cclogo" + i;
+          			if(selectedCard != null && card_types[i] == selectedCard.cardtype) {
+          				document.getElementById(imageId).src=baseURL + card_logos[i] + "_small.png";
+          			} else {
+          			    if(greyInactive) {
+          				  document.getElementById(imageId).src=baseURL + card_logos[i] + "_small_grey.png";
+          				} else {
+          				  document.getElementById(imageId).src=baseURL + card_logos[i] + "_small.png";
+          				}
+          			}
+          			document.getElementById(imageId).style.display="inline";
+          		}
+          		if(selectedCard != null) {
+          		  if(selectedCard.cardtype == "amex") {
+          		 	document.getElementById("cvcCode").maxLength = 4;
+          			document.getElementById('cvcName').innerHTML = "CID";
+          			document.getElementById('cvcWhatIs').innerHTML = "What is CID?";
+          			document.getElementById('cvcFrame').innerHTML = cvcinfo["amex"];
+          			showDebitCardFields("none");
+          		  } else if (selectedCard.cardtype == "visa" || selectedCard.cardtype == "electron") {
+          		  	document.getElementById("cvcCode").maxLength = 3;
+          			document.getElementById('cvcName').innerHTML = "CVV";
+          			document.getElementById('cvcWhatIs').innerHTML = "What is CVV?";
+          			document.getElementById('cvcFrame').innerHTML = cvcinfo["visa"];
+          			showDebitCardFields("none");
+          		  } else if (selectedCard.cardtype == "mc" || selectedCard.cardtype == "maestro" || selectedCard.cardtype == "maestrouk" || selectedCard.cardtype == "solo" ) {
+          		  	document.getElementById("cvcCode").maxLength = 3;
+          			document.getElementById('cvcName').innerHTML = "CVC";
+          			document.getElementById('cvcWhatIs').innerHTML = "What is CVC?";
+          			document.getElementById('cvcFrame').innerHTML = cvcinfo["mc"];
+          			if(selectedCard.cardtype == "maestrouk" || selectedCard.cardtype == "solo") {
+          				showDebitCardFields(cssTr);
+          			} else {
+          				showDebitCardFields("none");
+          			}
+          		  } else {
+          		   	document.getElementById("cvcCode").maxLength = 3;
+          			document.getElementById('cvcName').innerHTML = "CVC";
+          			document.getElementById('cvcWhatIs').innerHTML = "What is CVC?";
+          			document.getElementById('cvcFrame').innerHTML = cvcinfo["card"];
+          			showDebitCardFields("none");
+          		  }  
+          		}
+          	}
+          	
+          	function showDebitCardFields(show) {
+          		document.getElementById('cardIssueNumber').style.display = show;
+          		document.getElementById('cardStartDate').style.display = show;
+          		document.getElementById('pmmdetails-visa').style.height = document.getElementById('pmmdetails-visa').scrollHeight + "px";
+          		collapsevisa._getheight(true);
+          	}
+          	
+          	function ccNumberPresentation(valid, dontHideErrorFrame){
+          		var errors = new Array();
+          		errors.push("cardNumber");
+          		if(valid){
+          			clearErrors(errors, dontHideErrorFrame);
+          		}
+          		else{
+          			markErrorFields(errors);
+          		}
+          	}
+          	
+          	function blockNonNumbers(e) {
+          		var key;
+          		var isCtrl = false;
+          		var keychar;
+          		var reg;
+          			
+          		if(window.event) {
+          			key = e.keyCode;
+          			isCtrl = window.event.ctrlKey
+          		}
+          		else if(e.which) {
+          			key = e.which;
+          			isCtrl = e.ctrlKey;
+          		}
+          		
+          		if (isNaN(key)) return true;
+          		
+          		keychar = String.fromCharCode(key);
+          		
+          		// check for backspace or delete, or if Ctrl was pressed
+          		if (key == 8 || isCtrl) {
+          			return true;
+          		}
+          	
+          		reg = /[\d ]/;
+          		
+          		return reg.test(keychar);
+          	}
+          	
+          	validationFunctions
+          	function doCCCheck(){
+          		cardNumber = (document.getElementById('cardNumber').value);
+          		reg = /\s+/g;
+          		cardNumber = cardNumber.replace(reg,'');
+          		if(!luhnCheck(cardNumber))
+          			ccNumberPresentation(false);
+          		else
+          			ccNumberPresentation(true);
+          	}
+          		
+          	validationFunctions["card"] = new Array();
+          	validationFunctions["card"]["cardNumber"] = function (cardNumberField) {
+          		cardNumber = cardNumberField.value;
+          		reg = /\s+/g;
+          		cardNumber = cardNumber.replace(reg,'');
+          		if(cardNumber == "" || luhnCheck(cardNumber)){
+          			return true;
+          		}
+          		return false;
+          	}
+          
+          	
+          
+          //]]>
+      </script>
+
+      <table class="basetable">
+      <tr>
+      	<td class="mid"><div id="cclogoheader" style="display: none">Card Type</div></td>
+      	<td class="mid">
+      	    <div style="height: 25px" id="cclogo">
+      			  <img alt="" id="cclogo0" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo1" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo2" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo3" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo4" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo5" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo6" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo7" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <img alt="" id="cclogo8" style="display: none" class="mid" src="/hpp/img/pm/unknown_small.png" />
+      			  <script type="text/javascript">
+      			  	setCardBrand(null, false);
+      			  </script>
+      		</div>
+      	</td>
+      </tr>
+      <tr id="cardNumberTr">
+        <td><div>Card number</div></td>
+        <td><div class="fieldDiv"><input type="text" class="inputField" id="cardNumber" onkeypress="return blockNonNumbers(event)" onkeyup="validateCcNumber(event)" onblur="validateCcNumber(event)" onchange="doCCCheck()" name="cardNumber" value="" size="24" maxlength="23" /></div></td>
+      </tr>
+      <tr>
+        <td><div>Card holder name</div></td>
+        <td><div class="fieldDiv"><input type="text" class="inputField" id="cardHolderName" name="cardHolderName" value="" size="19" maxlength="30" /></div></td>
+      </tr>
+      <tr id="cardIssueNumber" style="display: none">
+        <td><div>Issue Number</div></td>
+        <td><div class="fieldDiv"><input type="text" class="inputField" name="issueNumber" id="issueNumber" size="4" maxlength="2" /></div></td>
+      </tr>
+      <tr id="cardStartDate" style="display: none">
+        <td><div>Start Date</div></td>
+        <td><div class="fieldDiv">
+            <select class="inputField" name="startMonth" id="startMonth" size="1">
+            <option value="*"></option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            </select>
+             &nbsp;/&nbsp; 
+            <select class="inputField" name="startYear" id="startYear" size="1">
+            <option value="*"></option>
+      	    <option value="2011">2011</option>
+      	    <option value="2010">2010</option>
+      	    <option value="2009">2009</option>
+      	    <option value="2008">2008</option>
+      	    <option value="2007">2007</option>
+            <option value="2006">2006</option>
+            <option value="2005">2005</option>
+            <option value="2004">2004</option>
+            <option value="2003">2003</option>
+            <option value="2002">2002</option>
+            </select>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <td><div>Card expiry date</div></td><td>
+        <div class="fieldDiv">
+        <select class="inputField" name="expiryMonth" id="expiryMonth" size="1">
+        <option value="*"></option>
+        <option  value="01">01</option>
+        <option  value="02">02</option>
+        <option  value="03">03</option>
+        <option  value="04">04</option>
+        <option  value="05">05</option>
+        <option  value="06">06</option>
+        <option  value="07">07</option>
+        <option  value="08">08</option>
+        <option  value="09">09</option>
+        <option  value="10">10</option>
+        <option  value="11">11</option>
+        <option  value="12">12</option>
+        </select>
+         &nbsp;/&nbsp; 
+        <select class="inputField" name="expiryYear" id="expiryYear" size="1">
+        <option value="*"></option>
+        <option  value="2011">2011</option>
+        <option  value="2012">2012</option>
+        <option  value="2013">2013</option>
+        <option  value="2014">2014</option>
+        <option  value="2015">2015</option>
+        <option  value="2016">2016</option>
+        <option  value="2017">2017</option>
+        <option  value="2018">2018</option>
+        <option  value="2019">2019</option>
+        <option  value="2020">2020</option>
+        <option  value="2021">2021</option>
+        <option  value="2022">2022</option>
+      	<option  value="2023">2023</option>
+      	<option  value="2024">2024</option>
+      	<option  value="2025">2025</option>
+        <option  value="2026">2026</option>
+        <option  value="2027">2027</option>
+      	</select>
+        </div>
+        </td>
+      </tr>
+      <tr>
+        <td><div id="cvcName">CVC/CVV/CID</div></td>
+        <td><div class="fieldDiv"><input class="inputField" type="text" name="cvcCode"  value="" id="cvcCode" size="7" maxlength="3" /> &nbsp; <a href="#"  onclick="return toggleElement('cvcFrame');"><span id="cvcWhatIs">What is CVC/CVV/CID?</span></a></div></td>
+      </tr>
+      <tr>
+      	<td colspan="2"><div class="r">
+          <input class="paySubmit paySubmitvisa" type="submit" name="pay" value="Confirm payment" />
+        </div></td>
+      </tr>
+      </table>
+
+      <div class="popupMsg  popupMsgOPP " style="display: none;" onclick="return hideElement('cvcFrame');" id="cvcFrame">
+      	<h3>What is CVC/CVV/CID?</h3>
+      	<p>The Card Security Code (CVC/CVV/CID) is an <i>additional</i>
+      					three or four digit security code that is printed (not embossed) on the front or the back
+      				of your card.</p>
+      	<p>The CVC/CVV/CID is an extra security measure to ensure that you are in possession of the card.</p>
+      </div>
+
+
+      <script type="text/javascript">
+      //<![CDATA[
+      	
+      	// find out what the CSS implementation calls the tr "display" value
+      	var cssTr = document.getElementById('cardNumberTr').style.display;
+      
+      	if(document.getElementById('cardNumber').value.length > 0) {
+      		var validateCcNumberTimer = setTimeout('validateCcNumber(null,true)', 2500);
+      	}
+      
+      //]]>
+      </script>
+      
+      <script type="text/javascript">
+      			var collapsevisa = new animatedcollapse("pmmdetails-visa", 1000, false, false, config["pmmanimation"]==1?false:true);
+      			details.push(collapsevisa);
+      			
+      							displayAmountExtras['card'] = "";
+      						
+      									
+      			
+      											addOnLoad(function () {
+      					setTimeout("show(collapsevisa, 'completeCard.shtml', 'card', 'visa')",100);
+      				});
+      										
+      			if (notNull(document.getElementById('pmmform-visa'))) {
+      				document.getElementById('pmmform-visa').setAttribute("autocomplete","off"); 
+      			}
+      </script>
+    </div>
+  </li>
+</ul>
+
+<div id="errorFrame" style="display: none;" class="popupMsg errorFrame">
+	<div id="errorFrameValidationErrors"></div>
+</div>
+<div id="okFrame" style="display: none;" class="popupMsg okFrame">
+  <div id="okFrameMessages"></div>
+</div>
+
+<input type="text" style="display: none" />
+<input type="hidden" name="sig" value="" /> 
+<input type="hidden" name="merchantReference" value="" /> 	
+<input type="hidden" name="paymentAmount" value="4320" /> 
+<input type="hidden" name="currencyCode" value="EUR" /> 
+<input type="hidden" name="shipBeforeDate" value="2011-06-03" /> 	
+<input type="hidden" name="skinCode" value="Zij12nYa" /> 
+<input type="hidden" name="merchantAccount" value="Test" /> 
+<input type="hidden" name="shopperLocale" value="en" /> 
+<input type="hidden" name="stage" value="pay" /> 	
+<input type="hidden" name="sessionId" value="" /> 
+<input type="hidden" name="orderData" value="" /> 
+<input type="hidden" name="sessionValidity" value="" /> 
+<input type="hidden" name="countryCode" value="" /> 
+<input type="hidden" name="shopperEmail" value="test@test.com" /> 
+<input type="hidden" name="allowedMethods" value="visa" /> 	
+<input type="hidden" name="originalSession" value="" /> 	
+<input type="hidden" name="referrerURL" value="" />
