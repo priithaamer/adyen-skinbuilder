@@ -28,3 +28,15 @@ See `adyen-skinbuilder --help` for more options to run server on different port 
 ## Order Data
 
 Adyen let's you post order data that will be shown in shopping cart view as part of html. You can put `order_data.txt` file into `inc/` folder in the skin directory. This file will be included automatically in the same place, where adyen would put it.
+
+## Building skin for upload
+
+There is a convenient Rake task that will create zip file of the skin file. It can be used either by providing directories as rake task arguments:
+
+    rake adyen:skin:build['/path/to/skin/directory','/path/to/target']
+
+Also, providing environment variables will work:
+
+    rake adyen:skin:build SKIN=/path/to/skin/directory TARGET=/path/to/target
+
+Why is it better than just zipping together skin directory by yourself? Just because we can and it also looks into base directory for shared files if you happen to have several skin directories.
