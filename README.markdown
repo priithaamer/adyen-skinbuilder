@@ -1,4 +1,4 @@
-Simple Rack server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles (not yet implemented).
+Simple Rack server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles.
 
 ## Install
 
@@ -24,6 +24,21 @@ To view something that is very much similar to the end result generated in Adyen
 And go to http://localhost:8888 to see the generated page.
 
 See `adyen-skinbuilder --help` for more options to run server on different port or with logging etc.
+
+### Base directory
+
+If you have multiple skin directories, this gem supports base directory that can provide files that will be included in all skins without the need to duplicate them. Let's consider this example:
+
+    +- ~/Documents
+      +- base
+        +- inc
+          +- cfooter.txt
+          +- cheader.txt
+      +- DV3tf95f
+        +- inc
+          +- cheader.txt
+
+File in specific skin directory takes precedence when building skin zip file. In this example, `cheader.txt` will be bundled from skin directory `DV3tf95f/inc` but `cfooter.txt` comes from `base/inc`.
 
 ## Order Data
 
