@@ -27,7 +27,7 @@ namespace :adyen do
             if File.directory?(File.join(base_directory, d))
               Dir.new(File.join(base_directory, d)).each do |file|
                 if File.file?(File.join(base_directory, d, file))
-                  io.put_next_entry("#{d}/#{file}")
+                  io.put_next_entry("#{skin_name}/#{d}/#{file}")
                   
                   if File.file?(File.join(skin_directory, d, file))
                     io.write File.read(File.join(skin_directory, d, file))
