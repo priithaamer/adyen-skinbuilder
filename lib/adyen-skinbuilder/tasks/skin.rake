@@ -18,7 +18,12 @@ namespace :adyen do
     task :build, :skin_directory, :target_directory do |t, args|
       skin_directory = File.expand_path(args[:skin_directory] || ENV['SKIN'])
       base_directory = File.expand_path(File.join(skin_directory, '..', 'base'))
+      # Allow the folder of a skin to have a meaningful name in this format:
+      # some-nice-name-SKINCODE (use a dash as last charachter before SKINCODE)
+      # Give the zip the full name, but give the top level directory in the zip
+      # archive only the SKINCODE, otherwise adyen will not accept it
       skin_name = File.basename(skin_directory)
+      skin_code = skin_name[/(?<=\-)[a-zA-Z0-9]+$/] || skin_name
       target_directory = File.expand_path((args[:target_directory] || ENV['TARGET']))
 
       if File.directory?(skin_directory) and File.directory?(target_directory)
@@ -27,7 +32,7 @@ namespace :adyen do
             if File.directory?(File.join(base_directory, d))
               Dir.new(File.join(base_directory, d)).each do |file|
                 if File.file?(File.join(base_directory, d, file))
-                  io.put_next_entry("#{skin_name}/#{d}/#{file}")
+                  io.put_next_entry("#{skin_code}/#{d}/#{file}")
                   
                   if File.file?(File.join(skin_directory, d, file))
                     io.write File.read(File.join(skin_directory, d, file))
