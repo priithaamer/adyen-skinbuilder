@@ -26,7 +26,7 @@ namespace :adyen do
       skin_code = skin_name[/(?<=\-)[a-zA-Z0-9]+$/] || skin_name
       target_directory = File.expand_path((args[:target_directory] || ENV['TARGET']))
 
-      # Wether we do or do not have/use a base directory
+      # Whether we do or do not have/use a base directory
       use_base = File.directory?(base_directory)
       puts use_base ? "Using base directory" : "Not using a base directory"
 
