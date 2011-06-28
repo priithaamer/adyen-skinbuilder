@@ -42,7 +42,7 @@ namespace :adyen do
       
         puts "Skin zip package was created to #{File.join(target_directory, "#{skin_name}.zip")}"
       else
-        puts "Usage: rake adyen:buildskin[<skin_directory>,<target_directory>] or rake:adyen:buildskin FROM=/from/dir TO=/to/dir"
+        puts "Usage: rake adyen:buildskin[<skin_directory>,<target_directory>] or rake:adyen:buildskin SKIN=/from/dir TARGET=/to/dir"
       end
     end
   end
