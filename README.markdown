@@ -54,4 +54,14 @@ Also, providing environment variables will work:
 
     rake adyen:skin:build SKIN=/path/to/skin/directory TARGET=/path/to/target
 
-Why is it better than just zipping together skin directory by yourself? Just because we can and it also looks into base directory for shared files if you happen to have several skin directories.
+### More meaningful file naming
+
+Adyen requires the name of root directory within the zip file to exactly match the skincode, e.g. `DV3tf95f`.
+These skincodes are not very meaningful and hard to remember.
+
+Therefore, the skin builder allows you to name the skin directories more meaningful by prepending the skin code, e.g. like this:
+`BrandX-shop-DV3tf95f`, where the only thing that matters is that it ends with `-SKINCODE`.
+The zip file will be named like the original folder name (with `.zip` appended), but the root directory within the zip has the skin code as its name.
+So in this example, the zip file would be called `BrandX-shop-DV3tf95f.zip`, and the root directory whithin it `DV3tf95f`.
+
+If the skin directory does not match this pattern, the zip and root directory within the zip will both be named after the original skin directory name.
