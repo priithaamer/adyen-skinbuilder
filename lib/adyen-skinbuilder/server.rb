@@ -38,7 +38,14 @@ module Adyen
         end
       end
     end
-    
+   
+    class Redirector 
+      def call(env)    
+        [302, {"Location" => "https://test.adyen.com#{env["REQUEST_PATH"]}"}, self]
+      end
+      def each(&block); end
+    end
+ 
     class Server
       
       class << self
@@ -53,13 +60,15 @@ module Adyen
             use Rack::CommonLogger if config[:log]
             use Rack::Head
             
-            # TODO: process Adyen default files at "/hpp"
             map("/sf/#{File.basename(config[:skins_directory])}") do
               run Rack::Cascade.new([
                 Rack::File.new(config[:skins_directory]),
                 Rack::File.new(File.join(File.dirname(config[:skins_directory]), 'base'))
               ])
             end
+
+            # Redirect requests for default assets to Adyen: 
+            map("/hpp") { run Adyen::SkinBuilder::Redirector.new }
         
             map('/') { run Adyen::SkinBuilder::SkeletonAdapter.new(config[:skins_directory]) }
           end
