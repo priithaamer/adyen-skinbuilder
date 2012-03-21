@@ -51,8 +51,7 @@ module Adyen
       class << self
 
         def run(config)
-          handler = Rack::Handler.default
-          handler.run(self.app(config), :Port => config[:port], :AccessLog => [])
+          Rack::Server.start(:app => self.app(config), :Port => config[:port], :AccessLog => [])
         end
       
         def app(config = {})

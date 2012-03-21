@@ -2,14 +2,14 @@ PATH
   remote: .
   specs:
     adyen-skinbuilder (0.0.1)
-      rack (>= 1.2)
+      rack (>= 1.3)
       slop (>= 1.6.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.2)
-    rack (1.2.2)
+    rack (1.3.0)
     rack-test (0.5.7)
       rack (>= 1.0)
     rspec (2.5.0)
