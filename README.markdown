@@ -65,3 +65,7 @@ The zip file will be named like the original folder name (with `.zip` appended),
 So in this example, the zip file would be called `BrandX-shop-DV3tf95f.zip`, and the root directory whithin it `DV3tf95f`.
 
 If the skin directory does not match this pattern, the zip and root directory within the zip will both be named after the original skin directory name.
+
+## Contributors 
+
+[See the list of contributiors](https://github.com/priithaamer/adyen-skinbuilder/network/members)
