@@ -23,7 +23,7 @@ namespace :adyen do
       # Give the zip the full name, but give the top level directory in the zip
       # archive only the SKINCODE, otherwise adyen will not accept it
       skin_name = File.basename(skin_directory)
-      skin_code = skin_name[/(?<=\-)[a-zA-Z0-9]+$/] || skin_name
+      skin_code = skin_name[/[a-zA-Z0-9]+$/] || skin_name
       target_directory = File.expand_path((args[:target_directory] || ENV['TARGET']))
 
       # Whether we do or do not have/use a base directory
