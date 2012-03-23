@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/priithaamer/adyen-skinbuilder.png?branch=master)](http://travis-ci.org/priithaamer/adyen-skinbuilder)
+
 Simple Rack server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles.
 
 ## Install
