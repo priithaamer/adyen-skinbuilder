@@ -14,15 +14,24 @@ helpers do
     buffer.slice!(pos..buffer.size)
   end
 
+  def load(file)
+    file = "./skins/#{@skin_code}/inc/#{file}.txt"
+    File.read(file) if File.exists?(file)
+  end
+
+  def render_partial(file, locals = {})
+    erb "_#{file}.html".to_sym, :layout => false, :locals => locals
+  end
+
   def adyen_form_tag(&block)
-    buffer << (erb :'_adyen_form.html', :layout => false, :locals => { :block => block })
+    buffer << render_partial(:adyen_form, :block => block)
   end
 
   def adyen_payment_fields(&block)
     if block_given?
       capture &block
     else
-      erb :'_adyen_payment_fields.html', :layout => false
+      render_partial :adyen_payment_fields
     end
   end
 end
@@ -30,8 +39,6 @@ end
 get '/sf/*' do |path|
   if (file = "skins/#{path}") && File.exists?(file)
     send_file(file)
-  else
-    ""
   end
 end
 
@@ -44,9 +51,17 @@ get '/hpp/*' do |path|
   send_file(file)
 end
 
+get '/favicon.ico' do
+end
+
 get '/:skin_code' do |skin_code|
   # load skin
-  erb :'skin.html', :layout => :'../../views/layout.html', :views => "skins/#{skin_code}", :locals => { :skin_code => skin_code }
+  file = "/skins/#{skin_code}/skin.html"
+  if !File.exists?(".#{file}.erb")
+    file = "/views/skin.html"
+  end
+  @skin_code = skin_code
+  erb "..#{file}".to_sym, :layout => "layout.html".to_sym
 end
 
 get '/' do
