@@ -1,0 +1,11 @@
+<div id="center">
+	<div id="home"> <!-- the box in the upper-left corner -->
+
+		<h1>paxjet</h1>
+
+		<h4>low cost, sky high</h4>
+		<p><img src="/sf/DV3tf95f/img/Airliner.airjamaica.a340.arp.750pix.jpg" alt="" height='100' width='120'/></p>
+		<p></p>
+
+	</div>
+	<div id="content2">

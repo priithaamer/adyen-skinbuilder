@@ -1,0 +1,23 @@
+<table class="basetable">
+<tr>
+	<td>
+		<div class="fieldDiv">
+			<input type="checkbox" name="customfields.termsandconditions" id="customfields.termsandconditions" value="true" CHECKED/>I accept <a href="http://www.adyen.com" target="_blank">the terms and conditions</a>
+			<input type="hidden" name="customfields.bogus" id="customfields.bogus" value="true" />
+		</div>
+	</td>
+</tr></table>	
+	
+
+<div id="paybutton">
+	<input type="submit" name="pay2" value="Pay" />
+</div>
+
+<script type="text/javascript">
+	var inputs = document.getElementsByTagName('input');
+	for (var i=0; i<inputs.length; i++) {
+		if(inputs[i].type == "submit" && inputs[i].name == "pay") {
+			inputs[i].style.display = "none";
+		}	
+	}
+</script>

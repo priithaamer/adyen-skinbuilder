@@ -1,0 +1,10 @@
+<script>
+	// Post processing functions
+	
+	// Show the maximum amount additional credit card costs (only OPP). Deprecated.
+	// showCardCosts();
+	// Alter the destination of the back button (only OPP).
+	alterPreviousButtonURL();
+	// Collapse the order data sent and make it expandable.
+	collapseOrder();
+</script>
