@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'sinatra/reloader'
 
 module Adyen
   module SkinBuilder
@@ -13,8 +12,13 @@ module Adyen
 
       set :views, "#{dir}/server/views"
 
+      # method will be overwirtten by _vegas_ if skin path given
+      def self.skins
+        File.expand_path(".")
+      end
+
       def skin_path(path = nil)
-        File.join(settings.skin_path, path.to_s)
+        File.join(settings.skins, path.to_s)
       end
 
       helpers do
@@ -57,12 +61,12 @@ module Adyen
       end
 
       get '/hpp/*' do |path|
-        file = File.join(settings.views + "/#{path}")
-        unless File.exists?(file)
-          `mkdir -p #{File.dirname(file)}`
-          `wget https://test.adyen.com/hpp/#{path} -O #{file}`
+        send_file File.join(settings.views, path).tap do |file|
+          if !File.exists?(file)
+            `mkdir -p #{File.dirname(file)}`
+            `wget https://test.adyen.com/hpp/#{path} -O #{file}`
+          end
         end
-        send_file(file)
       end
 
       get '/favicon.ico' do
@@ -73,9 +77,9 @@ module Adyen
 
         file = skin_path "#{skin_code}/skin.html"
         if !File.exists?("#{file}.erb")
-          file = File.join(settings.views + "/skin.html")
+          file = File.join(settings.views, "skin.html")
         end
-        erb file.to_sym, :views => '/', :layout => File.join(settings.views + "/layout.html").to_sym
+        erb file.to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym
       end
 
       get '/' do
