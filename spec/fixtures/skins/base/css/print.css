@@ -1,0 +1,7 @@
+html {background:#fff; font-size:10pt; font-family: arial, sans-serif;}
+#content {position:relative; z-index:3; word-wrap:break-word;}
+#head {display:none;}
+#printhead {height:100px; background:#fff; font-size:24pt; color:#000; border-bottom:1px solid #000;}
+#printfoot {height:50px; background:#fff; color:#000; text-align:right; font-size:12pt; border-top:1px solid #000; margin-top:20px;}
+#foot {display:none;}
+

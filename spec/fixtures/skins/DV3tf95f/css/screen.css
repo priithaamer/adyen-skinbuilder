@@ -1,0 +1,262 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font: 15px/19px verdana, serif;
+	color: #FFF;
+	background: #6A96BB url(../img/bg_gr.jpg) repeat-x top;
+}
+
+#content2 h1, #content2 h2, #content2 h3, #content2 h4, #content2 h5 {
+	/*   Headers inside the actual content2sbox     */
+	margin: 1em 17px 0.5em 10px;
+	text-align: right;
+	font-size: 1.4em;
+}
+
+h1, h2, h3, h4 {font-family: "georgia", serif; font-weight: bold;}
+
+h3 { font-size: 1.2em;}
+h3 a, h3 a:visited { text-decoration: none; color: #fff;}
+h3 a:active { color: #f00;}
+h3 a:hover { color: #fff000;}
+		
+#center {
+	/*   Makes the page in center of the viewport   */
+	position: relative;
+	width: 792px;
+	height: 100%;
+	margin: 0 auto;
+	background: transparent url(../img/blog_gr.jpg) repeat-y top right;
+}
+
+#pageform{ 
+ height: 20px;
+
+}
+
+#archives {
+	position: relative;
+	left: -20px;
+	padding: 0;
+	top: 228px;
+	width: 271px;
+}
+
+#archives h3 {
+	/*    the clouds graphic is a background of every h3 inside #achives    */
+	background: transparent url(../img/category.gif) no-repeat top right;
+	padding: 0 15px;
+	margin: 0;
+	vertical-align: middle;
+	line-height: 30px;
+	height: 38px;
+	text-align: right;
+
+}
+
+/*   the archives list is a real list, but I don't dots or numbers, and that I change with the following:    */
+
+#archives ul {
+	margin: 0 22px 0 0;
+	padding: 0 0 10px 0;
+}
+
+#archives ul li {
+	list-style-type: none;
+	text-align: right;
+	margin: 5px 0;
+}
+
+#archives ul li a {
+	text-decoration: none;
+	color: #2F3B55;
+	font-family: "georgia", "palatino linotype", "times new roman", serif;
+}
+
+#archives ul li a:hover {color: #fff; text-decoration: underline;}
+
+
+#content2 {
+	/*    the actual content2 of the page     */
+	position: absolute;
+	top: 198px;
+	width: 502px;
+	right: 0;
+	padding-right: 10px;
+	padding-left: 28px;
+	background: transparent url(../img/blog_gr.jpg) repeat-y top right;
+}
+
+
+#foot {
+/*	height: 60px;
+	background-color: white;
+*/
+	}
+
+#content2 p {
+	margin: 15px 17px 15px 0px;
+	text-align: justify;
+}
+
+#content2 h2 {
+	color: #C8E5FF;
+	border-top: 1px dotted;
+	padding-top: 12px;
+	margin-left: 0px;
+}
+
+
+#home {
+	/*   the box in the upper-left corner  */
+	position: absolute;
+	top: 15px;
+	left: 80px;
+	width: 200px;
+	text-align: center;
+	z-index: 1;
+}
+
+#home * {
+	margin: 0;
+	padding: 3px 0;
+}
+
+#top1, #top2, #top3 {
+	display: block;
+	position: absolute;
+	top: 0;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+
+/*   the top-graphic is made with these three elements:    */
+
+#top1 {
+	right: 503px;
+	width: 55px;
+	height: 223px;
+	background-image: url(../img/top1.jpg);
+}
+
+#top2 {
+	right: 5px;
+	width: 498px;
+	height: 223px;
+	background-image: url(../img/top2.jpg);
+}
+
+#top3 {
+	right: -25px;
+	width: 30px;
+	height: 231px;
+	background-image: url(../img/top3.jpg);
+}
+
+pre {font-family: courier, monospace; font-size: 1em; color: black; }
+table.basetable {  margin-left: 5px;}
+table.basetable td {  padding-bottom: 0.6em; padding-right: 0.6em;}
+table.od { margin: 10px 0px 10px 40px;}
+table.od td { padding: 5px; border: 1px solid #999;}
+table.od th { padding: 5px; font-weight: bold; border: 1px solid #999;}
+.r { text-align: right; }
+.l { text-align: left; }
+.fr { float: right; }
+.fl { float: left; }
+.b {font-size:1em; font-weight:bold;}
+
+.imgB { 
+  width: 138px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent url(../img/bg_buttons.png) no-repeat left 0px;
+  overflow: hidden;
+  color: white;
+  cursor: pointer; /* hand-shaped cursor */
+  cursor: hand; /* for IE 5.x */
+  font-weight: bold;
+  font-size: 1.2em;
+}
+form>.imgB { /* For non-IE browsers*/
+  height: 0px;
+}
+
+#footerb1div {
+  float: right;
+}
+#footerb2div {
+  float: right;
+}
+
+.pmB { 
+  width: 238px;
+  height: 42px;
+  padding-left: 85px;
+  text-align: left;
+  margin-bottom: 6px;
+  font-size: 1.1em;
+}
+
+.footerB {
+	border: 2px outset black;
+	background-color: #ccc;
+	margin: 6px 10px 0 0;
+}
+.footerB:active {
+	border: 2px inset black;
+}
+
+#nextstep {display: none;}
+
+.red {color:#c00;}
+.popupMsg { display: none; border: 1px solid #666; color: black; background-color: #eee; margin-bottom:5px; padding: 6px;}
+
+input, select
+{
+	font-size: 0.95em;
+	padding: 1px;
+    border: 1px solid #C3C3C3;
+    border-top-color: #7C7C7C;
+    border-bottom-color: #DDD;
+    background: white url(../img/input_bg.png) 0 0 repeat-x;
+}
+
+input[type=text]:focus, input[type=password]:focus, select:focus {
+	background-color: #E7F1F8 !important;
+}
+
+select {
+	font-weight: bold;
+}
+
+
+select {
+	font-size: 0.9em;
+}
+
+table.basetable .inputField {
+	padding: 1px 2px 2px 2px;
+	background-color: white;
+}
+
+
+table.basetable .errorField {
+	border: 2px solid #f33;
+	background-color: #fff3f3;
+	padding: 1px 1px 1px 1px;
+}
+
+.fieldDiv {
+	padding-right: 20px;
+	background: transparent;
+}
+.errorDiv {
+	background: transparent url(/hpp/img/icons/error.png) no-repeat right 3px;
+	padding-right: 20px;
+}
+.errorFrame {
+	background-color: #fff3f3;
+}
+
