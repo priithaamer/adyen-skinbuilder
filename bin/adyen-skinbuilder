@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + "/../lib/adyen-skinbuilder/server")
+require 'vegas'
+
+
+skin_path = ARGV.last
+skin_path = "." if !File.directory?(skin_path)
+
+skin_path = File.expand_path(skin_path)
+
+opts = { :skin_path => skin_path }
+
+if Adyen::SkinBuilder.is_skin?(skin_path)
+  opts[:skin_path]   = File.dirname(skin_path)
+  opts[:launch_path] = "/#{File.basename(skin_path)}"
+end
+
+puts opts[:launch_path]
+
+Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts ) do |runner, opts, app|
+end

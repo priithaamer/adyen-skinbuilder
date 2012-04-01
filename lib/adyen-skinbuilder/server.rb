@@ -1,11 +1,20 @@
 require 'sinatra/base'
+require 'sinatra/reloader'
 
 module Adyen
   module SkinBuilder
-    class Server < Sinatra::Base
+    def is_skin?(path)
+      File.exists?("#{path}/skin.html.erb") || File.exists?("#{path}/inc")
+    end
+    module_function :is_skin?
 
-      def initialize(bytecode_path = nil)
-        super
+    class Server < Sinatra::Base
+      dir = File.dirname(File.expand_path(__FILE__))
+
+      set :views, "#{dir}/server/views"
+
+      def skin_path(path = nil)
+        File.join(settings.skin_path, path.to_s)
       end
 
       helpers do
@@ -20,7 +29,7 @@ module Adyen
         end
 
         def load(file)
-          file = "./skins/#{@skin_code}/inc/#{file}.txt"
+          file = skin_path "#{@skin_code}/inc/#{file}.txt"
           File.read(file) if File.exists?(file)
         end
 
@@ -42,13 +51,13 @@ module Adyen
       end
 
       get '/sf/*' do |path|
-        if (file = "skins/#{path}") && File.exists?(file)
+        if (file = skin_path(path)) && File.exists?(file)
           send_file(file)
         end
       end
 
       get '/hpp/*' do |path|
-        puts file = "views/#{path}"
+        file = File.join(settings.views + "/#{path}")
         unless File.exists?(file)
           `mkdir -p #{File.dirname(file)}`
           `wget https://test.adyen.com/hpp/#{path} -O #{file}`
@@ -60,22 +69,21 @@ module Adyen
       end
 
       get '/:skin_code' do |skin_code|
-        # load skin
-        file = "/skins/#{skin_code}/skin.html"
-        if !File.exists?(".#{file}.erb")
-          file = "/views/skin.html"
-        end
         @skin_code = skin_code
-        erb "..#{file}".to_sym, :layout => "layout.html".to_sym
+
+        file = skin_path "#{skin_code}/skin.html"
+        if !File.exists?("#{file}.erb")
+          file = File.join(settings.views + "/skin.html")
+        end
+        erb file.to_sym, :views => '/', :layout => File.join(settings.views + "/layout.html").to_sym
       end
 
       get '/' do
-        # list all skins
-        skins = Dir['skins/*'].map do |path|
-          File.basename(path)
-        end
+        skins = Dir[skin_path("/*")].map do |path|
+          File.basename(path) if Adyen::SkinBuilder.is_skin?(path)
+        end.compact
 
-        erb :'index.html', :locals => { :skins => skins, :skin_code => 'index' }
+        erb :'index.html', :layout => false, :locals => { :skins => skins }
       end
     end
   end
