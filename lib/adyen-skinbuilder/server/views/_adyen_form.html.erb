@@ -1,3 +1,5 @@
+<!-- ### -->
+
 <form id="pageform" action="" method="post" onsubmit="return formValidate(this);">
   <script type="text/javascript">
     //<![CDATA[
@@ -8,7 +10,13 @@
   </script>
   <div id="content">
     <div id="pmcontent">
+
+      <!-- ### inc/pmheader -->
+
       <%= adyen_payment_fields(&block) %>
+
+      <!-- ### -->
+
     </div>
   </div>
   <div id="foot">
@@ -25,3 +33,5 @@
     </div>
   </div>
 </form>
+
+<!-- ### inc/cfooter -->

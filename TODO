@@ -1,12 +1,13 @@
 # Todo
 
   * add locale support
-  * add skin export
   * add skin upload
-  * allow partials
-  * 100% compatiable with version 2.0 (add order_data)
+  * 100% compatiable with version 2.0 (check raketasks)
 
 # Done
 
+  * add skin export
   * gemify
   * add custom skin path
+  * add order_data
+  * allow partials

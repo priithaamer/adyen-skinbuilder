@@ -93,7 +93,37 @@ describe 'SkinBuilder server' do
       it 'returns adyen form' do
         last_response.body.should include('<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">')
       end
+
+      it 'returns order data' do
+        last_response.body.should include(File.read(skins_directory + skin_code + '/inc/order_data.txt'))
+      end
     end
+
+    context "one file skin" do
+      let(:skin_code) { "/JH0815" }
+      let(:path) { skin_code + '?compile=true'}
+
+      after do
+        FileUtils.rm_rf(skins_directory + skin_code + '/inc')
+      end
+
+      it 'writes cheader' do
+        File.read(skins_directory + skin_code + '/inc/cheader.txt').should == "<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->"
+      end
+
+      it 'writes pmheader' do
+        File.read(skins_directory + skin_code + '/inc/pmheader.txt').should == "<!-- ### inc/pmheader_[locale].txt or inc/pmheader.txt (fallback) ### -->"
+      end
+
+      it 'writes pmfooter' do
+        File.read(skins_directory + skin_code + '/inc/pmfooter.txt').should == "<!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->\n\n  <!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### -->"
+      end
+
+      it 'writes cfooter' do
+        File.read(skins_directory + skin_code + '/inc/cfooter.txt').should == "<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->"
+      end
+    end
+
   end
 
   describe 'HEAD /' do

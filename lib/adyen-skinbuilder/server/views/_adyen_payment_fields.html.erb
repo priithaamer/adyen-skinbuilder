@@ -1,3 +1,5 @@
+<!-- ### -->
+
 <script type="text/javascript">
     //<![CDATA[
     /* Form validation */
@@ -85,7 +87,7 @@
 <div id="orderDataWrapper">
   <div id="orderDataHeader">Order Details</div>
   <div id="orderData">
-    <!-- Adyen Order Data -->
+    <%= load "order_data" %>
   </div>
 </div>
 <div id="displayAmount">
@@ -1263,3 +1265,5 @@ errorMessages["ideal"]["idealIssuerId"] = "U heeft een ongeldige bank gekozen";
 <input type="hidden" name="allowedMethods" value="visa" />
 <input type="hidden" name="originalSession" value="" />
 <input type="hidden" name="referrerURL" value="" />
+
+<!-- ### inc/pmfooter -->

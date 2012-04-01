@@ -30,6 +30,16 @@ module Adyen
       end
 
       helpers do
+        def store
+          buffer.scan(/<!-- ### inc\/([a-z]+) -->(.+?)<!-- ### -->/m) do |name, content|
+            file = skin_path @skin_code, "/inc/#{name}.txt"
+            `mkdir -p #{File.dirname(file)}`
+            File.open(file, "w") do |f|
+              f.write content.strip
+            end
+          end
+        end
+
         def buffer
           @_out_buf || @_buf
         end
@@ -46,18 +56,19 @@ module Adyen
         end
 
         def render_partial(file, locals = {})
-          erb "_#{file}.html".to_sym, :layout => false, :locals => locals
+          views = locals.delete(:views) || skin_path(@skin_code)
+          erb "_#{file}.html".to_sym, :layout => false, :views => views, :locals => locals
         end
 
         def adyen_form_tag(&block)
-          buffer << render_partial(:adyen_form, :block => block)
+          buffer << render_partial(:adyen_form, :views => settings.views, :block => block)
         end
 
         def adyen_payment_fields(&block)
           if block_given?
             capture &block
           else
-            render_partial :adyen_payment_fields
+            render_partial :adyen_payment_fields, :views => settings.views
           end
         end
       end
@@ -71,12 +82,12 @@ module Adyen
       end
 
       get '/hpp/*' do |path|
-        send_file File.join(settings.views, path).tap do |file|
+        send_file File.join(settings.views, path).tap { |file|
           if !File.exists?(file)
             `mkdir -p #{File.dirname(file)}`
             `wget https://test.adyen.com/hpp/#{path} -O #{file}`
           end
-        end
+        }
       end
 
       get '/favicon.ico' do
@@ -97,7 +108,7 @@ module Adyen
           File.basename(path) if Adyen::SkinBuilder.is_skin?(path)
         end.compact
 
-        erb :'index.html', :layout => false, :locals => { :skins => skins }
+        erb 'index.html'.to_sym, :layout => false, :locals => { :skins => skins }
       end
     end
   end
