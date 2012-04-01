@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    adyen-skinbuilder (0.3)
+    adyen-skinbuilder (0.3.0.rc1)
       sinatra
       sinatra-contrib
       vegas
