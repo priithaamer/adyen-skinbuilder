@@ -1,6 +1,6 @@
-[![Build Status](https://secure.travis-ci.org/priithaamer/adyen-skinbuilder.png?branch=master)](http://travis-ci.org/priithaamer/adyen-skinbuilder)
+# Adyen Skinbuilder [![Build Status](https://secure.travis-ci.org/priithaamer/adyen-skinbuilder.png?branch=master)](http://travis-ci.org/priithaamer/adyen-skinbuilder)
 
-Simple Rack server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles.
+Simple Sinatra server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles.
 
 ## Install
 
@@ -19,13 +19,13 @@ Make sure you have directory with basic Adyen skin structure, that looks somethi
           +- cheader.txt
         +- js
 
-To view something that is very much similar to the end result generated in Adyen, fire up adyen-skinbuilder rack server, that does the template rendering on your local machine:
+To view something that is very much similar to the end result generated in Adyen, fire up adyen-skinbuilder sinatra server, that does the template rendering on your local machine:
 
     $ adyen-skinbuilder ~/Documents/DV3tf95f
 
-And go to http://localhost:8888 to see the generated page.
+Your browser will open and show you the rendered result.
 
-See `adyen-skinbuilder --help` for more options to run server on different port or with logging etc.
+See `adyen-skinbuilder --help` for more options to run server on different port or with logging etc. Run `adyen-skinbuilder -k` to shutdown.
 
 ### Base directory
 
@@ -71,3 +71,20 @@ If the skin directory does not match this pattern, the zip and root directory wi
 ## Contributors
 
 [See the list of contributiors](https://github.com/priithaamer/adyen-skinbuilder/network/members)
+
+
+## Contributing
+
+We'll check out your contribution if you:
+
+- Provide a comprehensive suite of tests for your fork.
+- Have a clear and documented rationale for your changes.
+- Package these up in a pull request.
+
+We'll do our best to help you out with any contribution issues you may have.
+
+
+## License
+
+The license is included as LICENSE in this directory.
+

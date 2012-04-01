@@ -5,11 +5,11 @@ Gem::Specification.new do |s|
   s.name        = 'adyen-skinbuilder'
   s.version     = Adyen::Skinbuilder::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Priit Haamer']
-  s.email       = ['priit@edicy.com']
+  s.authors     = ['Priit Haamer', 'Tobias Bielohlawek']
+  s.email       = ['priit@edicy.com', 'tobi@soundcloud.com']
   s.homepage    = 'http://rubygems.org/gems/adyen-skinbuilder'
   s.summary     = %q{Simple Sinatra server to make coding Adyen skins easier}
-  s.description = %q{Provides helpful rake tasks and command line tools to run rack server and bundle adyen skin files}
+  s.description = %q{Provides helpful command line tools to run sinatra server and bundle adyen skin files}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

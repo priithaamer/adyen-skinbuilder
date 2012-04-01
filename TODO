@@ -1,10 +1,12 @@
-
-
 # Todo
 
-* add locale support
-* add skin export
-* add skin upload
-* add custom skin path
-* gemify
-* allow partials
+  * add locale support
+  * add skin export
+  * add skin upload
+  * allow partials
+  * 100% compatiable with version 2.0 (add order_data)
+
+# Done
+
+  * gemify
+  * add custom skin path
