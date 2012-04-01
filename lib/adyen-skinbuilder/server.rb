@@ -3,7 +3,7 @@ require 'sinatra/base'
 module Adyen
   module SkinBuilder
     def is_skin?(path)
-      File.exists?("#{path}/skin.html.erb") || File.exists?("#{path}/inc")
+      File.exists?("#{path}/skin.html.erb") || File.exists?("#{path}/inc") || File.exists?("#{path}/css")  || File.exists?("#{path}/js")
     end
     module_function :is_skin?
 
@@ -12,13 +12,21 @@ module Adyen
 
       set :views, "#{dir}/server/views"
 
-      # method will be overwirtten by _vegas_ if skin path given
-      def self.skins
+      # method will be overwritten by _vegas_ if skin directory given
+      def self.skins_directory
         File.expand_path(".")
       end
 
-      def skin_path(path = nil)
-        File.join(settings.skins, path.to_s)
+      def skins_directory
+        @@skins_directory ||= if Adyen::SkinBuilder.is_skin?(settings.skins_directory)
+          File.dirname(settings.skins_directory)
+        else
+          settings.skins_directory
+        end
+      end
+
+      def skin_path(*path)
+        File.join(skins_directory, *path)
       end
 
       helpers do
@@ -33,7 +41,7 @@ module Adyen
         end
 
         def load(file)
-          file = skin_path "#{@skin_code}/inc/#{file}.txt"
+          file = skin_path @skin_code, "/inc/#{file}.txt"
           File.read(file) if File.exists?(file)
         end
 
@@ -54,9 +62,11 @@ module Adyen
         end
       end
 
-      get '/sf/*' do |path|
-        if (file = skin_path(path)) && File.exists?(file)
-          send_file(file)
+      get '/sf/:skin_code/*' do |skin_code, path|
+        if (file = skin_path(skin_code, path)) && File.exists?(file)
+          send_file file
+        elsif (file = skin_path("base", path)) && File.exists?(file)
+          send_file file
         end
       end
 
@@ -75,7 +85,7 @@ module Adyen
       get '/:skin_code' do |skin_code|
         @skin_code = skin_code
 
-        file = skin_path "#{skin_code}/skin.html"
+        file = skin_path skin_code, "skin.html"
         if !File.exists?("#{file}.erb")
           file = File.join(settings.views, "skin.html")
         end

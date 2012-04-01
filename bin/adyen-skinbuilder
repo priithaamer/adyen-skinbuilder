@@ -3,16 +3,13 @@
 require File.expand_path(File.dirname(__FILE__) + "/../lib/adyen-skinbuilder/server")
 require 'vegas'
 
-opts = if (skins = ARGV.last) && File.directory?(skins)
-  if Adyen::SkinBuilder.is_skin?(skins)
-    {
-      :skins => File.dirname(skins),
-      :launch_path => "/#{File.basename(skins)}"
-    }
-  else
-    {
-      :skins => skins
-    }
+opts = {}
+
+if (skins = ARGV.last) && File.directory?(skins)
+  opts[:skins_directory] = skins
+
+  if Adyen::SkinBuilder.is_skin?(skins) #auto launch skin
+    opts[:launch_path] = "/" + File.basename(skins)
   end
 end
 
