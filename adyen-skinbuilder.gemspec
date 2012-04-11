@@ -16,12 +16,11 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency 'sinatra'
-  s.add_dependency 'sinatra-contrib'
-  s.add_dependency 'vegas'
+  %w(sinatra sinatra-contrib vegas adyen-admin).each do |gem|
+    s.add_runtime_dependency *gem.split(' ')
+  end
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '>= 2.8'
-  s.add_development_dependency 'guard-rspec'
-  s.add_development_dependency 'rack-test'
+  %w(rake rspec guard-rspec rack-test).each do |gem|
+    s.add_development_dependency *gem.split(' ')
+  end
 end

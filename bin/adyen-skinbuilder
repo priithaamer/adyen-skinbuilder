@@ -3,19 +3,17 @@
 require File.expand_path(File.dirname(__FILE__) + "/../lib/adyen-skinbuilder/server")
 require 'vegas'
 
-if ARGV.first == 'init'
-  ## TODO, create basi skin structre
+opts = {}
 
-else
-  opts = {}
 
-  if (skins = ARGV.last) && File.directory?(skins)
-    opts[:skins_directory] = skins
+if (skins = ARGV.last) && File.directory?(skins)
+  opts[:skins_directory] = skins
 
-    if Adyen::SkinBuilder.is_skin?(skins) #auto launch skin
-      opts[:launch_path] = "/" + File.basename(skins)
-    end
+  begin
+    skin = Adyen::Admin::Skin.new(:path => skins) #auto launch skin
+    opts[:launch_path] = "/#{skin.code}"
+  rescue ArgumentError
   end
-
-  Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts)
 end
+
+Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts)

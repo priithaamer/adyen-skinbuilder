@@ -1,12 +1,11 @@
+require 'rubygems'
+require "bundler/setup"
+
 require 'sinatra/base'
+require 'adyen-admin'
 
 module Adyen
   module SkinBuilder
-    def is_skin?(path)
-      File.exists?("#{path}/skin.html.erb") || File.exists?("#{path}/inc") || File.exists?("#{path}/css")  || File.exists?("#{path}/js")
-    end
-    module_function :is_skin?
-
     class Server < Sinatra::Base
       dir = File.dirname(File.expand_path(__FILE__))
 
@@ -18,15 +17,24 @@ module Adyen
       end
 
       def skins_directory
-        @@skins_directory ||= if Adyen::SkinBuilder.is_skin?(settings.skins_directory)
+        @@skins_directory ||= begin
+          Adyen::Admin::Skin.new(:path => settings.skins_directory)
           File.dirname(settings.skins_directory)
-        else
+        rescue ArgumentError
           settings.skins_directory
         end
       end
 
       def skin_path(*path)
         File.join(skins_directory, *path)
+      end
+
+      def skin_file(skin_code)
+        skin_path(skin_code, "skin.html").tap do |file|
+          if !File.exists?("#{file}.erb")
+            file.replace File.join(settings.views, "skin.html")
+          end
+        end
       end
 
       helpers do
@@ -96,19 +104,18 @@ module Adyen
       get '/:skin_code' do |skin_code|
         @skin_code = skin_code
 
-        file = skin_path skin_code, "skin.html"
-        if !File.exists?("#{file}.erb")
-          file = File.join(settings.views, "skin.html")
+        if params[:upload]
+          @skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code))
+          @skin.upload
         end
-        erb file.to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym
+
+        erb skin_file(@skin_code).to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym
       end
 
       get '/' do
-        skins = Dir[skin_path("/*")].map do |path|
-          File.basename(path) if Adyen::SkinBuilder.is_skin?(path)
-        end.compact
+        @skins = Adyen::Admin::Skin.all_remote | Adyen::Admin::Skin.all_local(skin_path)
 
-        erb 'index.html'.to_sym, :layout => false, :locals => { :skins => skins }
+        erb 'index.html'.to_sym, :layout => false
       end
     end
   end
