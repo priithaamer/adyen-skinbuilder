@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/adyen-skinbuilder/server")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/hash")
 require 'vegas'
 
 opts = {}
@@ -14,6 +15,17 @@ if (skins = ARGV.last) && File.directory?(skins)
     opts[:launch_path] = "/#{skin.code}"
   rescue ArgumentError
   end
+end
+
+adyen_rc_file = ".adyenrc"
+
+if !File.exists?(adyen_rc_file)
+  adyen_rc_file = File.expand_path("~/#{adyen_rc_file}")
+end
+
+begin
+  opts[:adyen_admin_cfg] = YAML::load(::File.open(adyen_rc_file)).symbolize_keys!
+rescue
 end
 
 Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts)

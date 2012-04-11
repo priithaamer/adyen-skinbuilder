@@ -105,8 +105,11 @@ module Adyen
         @skin_code = skin_code
 
         if params[:upload]
-          @skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code))
-          @skin.upload
+          cfg = settings.adyen_admin_cfg
+          Adyen::Admin.login(cfg[:accountname], cfg[:username], cfg[:password])
+          if @skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code))
+            @skin.upload
+          end
         end
 
         erb skin_file(@skin_code).to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym
