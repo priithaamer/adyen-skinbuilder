@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler'
 
-Bundler.setup(:default, :test)
+Bundler.setup(:default, :development)
 
-require 'adyen-skinbuilder'
+require 'adyen-skinbuilder/server'

@@ -1,0 +1,37 @@
+<!-- ### -->
+
+<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">
+  <script type="text/javascript">
+    //<![CDATA[
+    if (notNull(document.getElementById('pageform'))) {
+      document.getElementById('pageform').setAttribute("autocomplete","off");
+    }
+    //]]>
+  </script>
+  <div id="content">
+    <div id="pmcontent">
+
+      <!-- ### inc/pmheader -->
+
+      <%= adyen_payment_fields(&block) %>
+
+      <!-- ### -->
+
+    </div>
+  </div>
+  <div id="foot">
+    <div id="footc">
+      <div id="nextstep">
+        <div id="nextstepc">Next Step Text</div>
+      </div>
+      <div id="footerb1div">
+       <input onclick="" type="submit" id="mainSubmit" value="continue" class="footerB nextB" />
+    ￼￼</div>
+      <div id="footerb2div">
+        <input onclick="" type="button" id="mainBack" value="previous" class="footerB backB" />
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- ### inc/cfooter -->

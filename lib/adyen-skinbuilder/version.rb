@@ -1,5 +1,5 @@
 module Adyen
   module Skinbuilder
-    VERSION = '0.2.6'
+    VERSION = '0.3.0.rc2'
   end
 end

@@ -5,22 +5,22 @@ Gem::Specification.new do |s|
   s.name        = 'adyen-skinbuilder'
   s.version     = Adyen::Skinbuilder::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Priit Haamer']
-  s.email       = ['priit@edicy.com']
+  s.authors     = ['Priit Haamer', 'Tobias Bielohlawek']
+  s.email       = ['priit@edicy.com', 'tobi@soundcloud.com']
   s.homepage    = 'http://rubygems.org/gems/adyen-skinbuilder'
-  s.summary     = %q{Simple Rack server to make coding Adyen skins easier}
-  s.description = %q{Provides helpful rake tasks and command line tools to run rack server and bundle adyen skin files}
+  s.summary     = %q{Simple Sinatra server to make coding Adyen skins easier}
+  s.description = %q{Provides helpful command line tools to run sinatra server and bundle adyen skin files}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
-  
-  s.add_dependency 'rack', '>= 1.3'
-  s.add_dependency 'slop', '>= 1.6.0'
-  
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '>= 2.8'
-  s.add_development_dependency 'guard-rspec'
-  s.add_development_dependency 'rack-test'
+
+  %w(sinatra sinatra-contrib vegas adyen-admin).each do |gem|
+    s.add_runtime_dependency *gem.split(' ')
+  end
+
+  %w(rake rspec guard-rspec rack-test).each do |gem|
+    s.add_development_dependency *gem.split(' ')
+  end
 end
