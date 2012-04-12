@@ -1,6 +1,31 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'adyen-skinbuilder'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/adyen-skinbuilder/server")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/hash")
+require 'vegas'
 
-Adyen::SkinBuilder::Launcher.ignition
+opts = {}
+
+
+if (skins = ARGV.last) && File.directory?(skins)
+  opts[:skins_directory] = skins
+
+  begin
+    skin = Adyen::Admin::Skin.new(:path => skins) #auto launch skin
+    opts[:launch_path] = "/#{skin.code}"
+  rescue ArgumentError
+  end
+end
+
+adyen_rc_file = ".adyenrc"
+
+if !File.exists?(adyen_rc_file)
+  adyen_rc_file = File.expand_path("~/#{adyen_rc_file}")
+end
+
+begin
+  opts[:adyen_admin_cfg] = YAML::load(::File.open(adyen_rc_file)).symbolize_keys!
+rescue
+end
+
+Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts)

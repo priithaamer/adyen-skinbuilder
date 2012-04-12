@@ -1,0 +1,306 @@
+@media screen {
+	/* Don't forget to set a foreground and background color 
+   on the 'html' or 'body' element! */
+	html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td
+		{
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-weight: inherit;
+		font-style: inherit;
+		font-size: 100%;
+		line-height: 1;
+		font-family: inherit;
+		text-align: left;
+		vertical-align: baseline;
+	}
+	a img,:link img,:visited img {
+		border: 0;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+	ol,ul {
+		list-style: none;
+	}
+	q:before,q:after,blockquote:before,blockquote:after {
+		content: "";
+	}
+}
+
+@media print {
+	.hideforprint {
+		display: none;
+	}
+}
+
+/* Some Layout Shortcuts */
+.r {
+	text-align: right;
+}
+
+.l {
+	text-align: left;
+}
+
+.fr {
+	float: right;
+}
+
+.fl {
+	float: left;
+}
+
+.b {
+	font-weight: bold;
+}
+
+.mid {
+	vertical-align: middle;
+}
+
+.red {
+	color: #c00;
+}
+
+.green {
+	color: #0c0;
+}
+
+/* paid, prepared, paused, in_progress, expired, error, preparation_failed, gained, paid_out;
+/* red */
+.ivr_status_error {
+	color: #c00;
+}
+.ivr_status_preparation_failed {
+	color: #c00;
+}
+.ivr_status_expired {
+	color: #c00;
+}
+/* green */
+.ivr_status_paid {
+	color: #0c0;
+}
+.ivr_status_gained {
+	color: #0c0;
+}
+.ivr_status_paid_out {
+	color: #0c0;
+}
+/* orange */
+.ivr_status_prepared {
+	color: #f4a80a;
+}
+.ivr_status_paused {
+	color: #f4a80a;
+}
+.ivr_status_in_progress {
+	color: #f4a80a;
+}
+
+
+.pmBach { background-image: url(../img/pm/ach.png) !important; }
+.pmBachcolombia { background-image: url(../img/pm/achcolombia.png) !important; }
+.pmBalbelligiftcard { background-image: url(../img/pm/albelligiftcard.png) !important; }
+.pmBalipay { background-image: url(../img/pm/alipay.png) !important; }
+.pmBamex { background-image: url(../img/pm/amex.png) !important; }
+.pmBargencard { background-image: url(../img/pm/argencard.png) !important; }
+.pmBasiapay { background-image: url(../img/pm/asiapay.png) !important; }
+.pmBaura { background-image: url(../img/pm/aura.png) !important; }
+.pmBautopay { background-image: url(../img/pm/autopay.png) !important; }
+
+.pmBbabygiftcard { background-image: url(../img/pm/babygiftcard.png) !important; }
+.pmBbaloto { background-image: url(../img/pm/baloto.png) !important; }
+.pmBbanamex { background-image: url(../img/pm/banamex.png) !important; }
+.pmBbancnet { background-image: url(../img/pm/bancnet.png) !important; }
+.pmBbancodobrasil { background-image: url(../img/pm/bancodobrasil.png) !important; }
+.pmBbancomer { background-image: url(../img/pm/bancomer.png) !important; }
+.pmBbank24 { background-image: url(../img/pm/bank24.png) !important; }
+.pmBbank_ru { background-image: url(../img/pm/bank_ru.png) !important; }
+
+.pmBbankTransfer_AE { background-image: url(../img/pm/bankTransfer_AE.png) !important; }
+.pmBbankTransfer_AT { background-image: url(../img/pm/bankTransfer_AT.png) !important; }
+.pmBbankTransfer_AU { background-image: url(../img/pm/bankTransfer_AU.png) !important; }
+.pmBbankTransfer_BE { background-image: url(../img/pm/bankTransfer_BE.png) !important; }
+.pmBbankTransfer_BG { background-image: url(../img/pm/bankTransfer_BG.png) !important; }
+.pmBbankTransfer_CH { background-image: url(../img/pm/bankTransfer_CH.png) !important; }
+.pmBbankTransfer_CY { background-image: url(../img/pm/bankTransfer_CY.png) !important; }
+.pmBbankTransfer_DE { background-image: url(../img/pm/bankTransfer_DE.png) !important; }
+.pmBbankTransfer_DK { background-image: url(../img/pm/bankTransfer_DK.png) !important; }
+.pmBbankTransfer_EE { background-image: url(../img/pm/bankTransfer_EE.png) !important; }
+.pmBbankTransfer_ES { background-image: url(../img/pm/bankTransfer_ES.png) !important; }
+.pmBbankTransfer_FI { background-image: url(../img/pm/bankTransfer_FI.png) !important; }
+.pmBbankTransfer_FR { background-image: url(../img/pm/bankTransfer_FR.png) !important; }
+.pmBbankTransfer_GB { background-image: url(../img/pm/bankTransfer_GB.png) !important; }
+.pmBbankTransfer_GI { background-image: url(../img/pm/bankTransfer_GI.png) !important; }
+.pmBbankTransfer_HU { background-image: url(../img/pm/bankTransfer_HU.png) !important; }
+.pmBbankTransfer_IBAN { background-image: url(../img/pm/bankTransfer_IBAN.png) !important; }
+.pmBbankTransfer_IE { background-image: url(../img/pm/bankTransfer_IE.png) !important; }
+.pmBbankTransfer_IT { background-image: url(../img/pm/bankTransfer_IT.png) !important; }
+.pmBbankTransfer_LU { background-image: url(../img/pm/bankTransfer_LU.png) !important; }
+.pmBbankTransfer_MT { background-image: url(../img/pm/bankTransfer_MT.png) !important; }
+.pmBbankTransfer_NL { background-image: url(../img/pm/bankTransfer_NL.png) !important; }
+.pmBbankTransfer_NO { background-image: url(../img/pm/bankTransfer_NO.png) !important; }
+.pmBbankTransfer_PL { background-image: url(../img/pm/bankTransfer_PL.png) !important; }
+.pmBbankTransfer_PT { background-image: url(../img/pm/bankTransfer_PT.png) !important; }
+.pmBbankTransfer_SE { background-image: url(../img/pm/bankTransfer_SE.png) !important; }
+.pmBbankTransfer_SK { background-image: url(../img/pm/bankTransfer_SK.png) !important; }
+.pmBbankTransfer_US { background-image: url(../img/pm/bankTransfer_US.png) !important; }
+
+.pmBbanorte { background-image: url(../img/pm/banorte.png) !important; }
+.pmBbarras { background-image: url(../img/pm/barras.png) !important; }
+.pmBbcmc { background-image: url(../img/pm/bcmc.png) !important; }
+.pmBbeelinesms { background-image: url(../img/pm/beelinesms.png) !important; }
+.pmBbijcard { background-image: url(../img/pm/bijcard.png) !important; }
+.pmBbijcadeaucard { background-image: url(../img/pm/bijcadeaucard.png) !important; }
+.pmBbill99 { background-image: url(../img/pm/bill99.png) !important; }
+.pmBboleto { background-image: url(../img/pm/boleto.png) !important; }
+.pmBbradesco { background-image: url(../img/pm/bradesco.png) !important; }
+.pmBbualuangibanking { background-image: url(../img/pm/bualuangibanking.png) !important; }
+
+.pmBcabal { background-image: url(../img/pm/cabal.png) !important; }
+.pmBcard { background-image: url(../img/pm/card.png) !important; }
+.pmBcashticket { background-image: url(../img/pm/cashticket.png) !important; }
+.pmBcashu { background-image: url(../img/pm/cashu.png) !important; }
+.pmBc_cash { background-image: url(../img/pm/c_cash.png) !important; }
+.pmBccavenue { background-image: url(../img/pm/ccavenue.png) !important; }
+.pmBcellpaypoint { background-image: url(../img/pm/cellpaypoint.png) !important; }
+.pmBc_factuur { background-image: url(../img/pm/c_factuur.png) !important; }
+.pmBciberpay { background-image: url(../img/pm/ciberpay.png) !important; }
+.pmBc_invoice { background-image: url(../img/pm/c_invoice.png) !important; }
+.pmBcontact_ru { background-image: url(../img/pm/contact_ru.png) !important; }
+.pmBc_oprekening { background-image: url(../img/pm/c_oprekening.png) !important; }
+.pmBc_paypal { background-image: url(../img/pm/c_paypal.png) !important; }
+.pmBc_pos { background-image: url(../img/pm/c_pos.png) !important; }
+.pmBcredencial { background-image: url(../img/pm/credencial.png) !important; }
+.pmBc_rembours { background-image: url(../img/pm/c_rembours.png) !important; }
+
+.pmBdankort { background-image: url(../img/pm/dankort.png) !important; }
+.pmBdineromail { background-image: url(../img/pm/dineromail.png) !important; }
+.pmBdiners { background-image: url(../img/pm/diners.png) !important; }
+.pmBdirectdebit_NL { background-image: url(../img/pm/directdebit_NL.png) !important; }
+.pmBdirectEbanking { background-image: url(../img/pm/directEbanking.png) !important; }
+.pmBdirectEbanking_de { background-image: url(../img/pm/directEbanking_de.png) !important; }
+.pmBdiscover { background-image: url(../img/pm/discover.png) !important; }
+.pmBdotpay { background-image: url(../img/pm/dotpay.png) !important; }
+
+.pmBebanking_FI { background-image: url(../img/pm/ebanking_FI.png) !important; }
+.pmBebucks { background-image: url(../img/pm/ebucks.png) !important; }
+.pmBelecsnet { background-image: url(../img/pm/elecsnet.png) !important; }
+.pmBelv { background-image: url(../img/pm/elv.png) !important; }
+.pmBentertainmentcard { background-image: url(../img/pm/entertainmentcard.png) !important; }
+.pmBeps { background-image: url(../img/pm/eps.png) !important; }
+
+.pmBforwardmobile { background-image: url(../img/pm/forwardmobile.png) !important; }
+
+.pmBgallgall { background-image: url(../img/pm/gallgall.png) !important; }
+.pmBgiropay { background-image: url(../img/pm/giropay.png) !important; }
+.pmBglobegcash { background-image: url(../img/pm/globegcash.png) !important; }
+
+.pmBhdfc { background-image: url(../img/pm/hdfc.png) !important; }
+.pmBhipercard { background-image: url(../img/pm/hipercard.png) !important; }
+.pmBhppPos { background-image: url(../img/pm/hppPos.png) !important; }
+.pmBhsbc { background-image: url(../img/pm/hsbc.png) !important; }
+.pmBhyvesafrekenen { background-image: url(../img/pm/hyvesafrekenen.png) !important; }
+
+.pmBideal { background-image: url(../img/pm/ideal.png) !important; }
+.pmBinterac { background-image: url(../img/pm/interac.png) !important; }
+.pmBipay88 { background-image: url(../img/pm/ipay88.png) !important; }
+.pmBisracard { background-image: url(../img/pm/isracard.png) !important; }
+.pmBitalcred { background-image: url(../img/pm/italcred.png) !important; }
+.pmBivr { background-image: url(../img/pm/ivr.png) !important; }
+.pmBivrLandline { background-image: url(../img/pm/ivrLandline.png) !important; }
+.pmBivrMobile { background-image: url(../img/pm/ivrMobile.png) !important; }
+.pmBixe { background-image: url(../img/pm/ixe.png) !important; }
+
+.pmBjcb { background-image: url(../img/pm/jcb.png) !important; }
+
+.pmBkadowereld { background-image: url(../img/pm/kadowereld.png) !important; }
+.pmBklarna { background-image: url(../img/pm/klarna.png) !important; }
+.pmBkrungsrionline { background-image: url(../img/pm/krungsrionline.png) !important; }
+.pmBktbonline { background-image: url(../img/pm/ktbonline.png) !important; }
+
+.pmBlaser { background-image: url(../img/pm/laser.png) !important; }
+
+.pmBmaestro { background-image: url(../img/pm/maestro.png) !important; }
+.pmBmaestrouk { background-image: url(../img/pm/maestrouk.png) !important; }
+.pmBmc { background-image: url(../img/pm/mc.png) !important; }
+.pmBmercadopago { background-image: url(../img/pm/mercadopago.png) !important; }
+.pmBmimoney { background-image: url(../img/pm/mimoney.png) !important; }
+.pmBmoneta { background-image: url(../img/pm/moneta.png) !important; }
+.pmBmoneybookers { background-image: url(../img/pm/moneybookers.png) !important; }
+.pmBmoneymail { background-image: url(../img/pm/moneymail.png) !important; }
+.pmBmoneymoney { background-image: url(../img/pm/moneymoney.png) !important; }
+
+.pmBnaranja { background-image: url(../img/pm/naranja.png) !important; }
+.pmBnedbank { background-image: url(../img/pm/nedbank.png) !important; }
+.pmBneteller { background-image: url(../img/pm/neteller.png) !important; }
+
+.pmBonline_RU { background-image: url(../img/pm/online_RU.png) !important; }
+.pmBopeninvoice { background-image: url(../img/pm/openinvoice.png) !important; }
+
+.pmBpagosonline { background-image: url(../img/pm/pagosonline.png) !important; }
+.pmBpaypal { background-image: url(../img/pm/paypal.png) !important; }
+.pmBpaysafecard { background-image: url(../img/pm/paysafecard.png) !important; }
+.pmBpayu { background-image: url(../img/pm/payu.png) !important; }
+.pmBplastix { background-image: url(../img/pm/plastix.png) !important; }
+.pmBplatezhru { background-image: url(../img/pm/platezhru.png) !important; }
+.pmBplatika { background-image: url(../img/pm/platika.png) !important; }
+.pmBpodiumcard { background-image: url(../img/pm/podiumcard.png) !important; }
+.pmBpostoffice_ru { background-image: url(../img/pm/postoffice_ru.png) !important; }
+.pmBpps { background-image: url(../img/pm/pps.png) !important; }
+.pmBpse { background-image: url(../img/pm/pse.png) !important; }
+
+.pmBqiwi { background-image: url(../img/pm/qiwi.png) !important; }
+
+.pmBsafetypay { background-image: url(../img/pm/safetypay.png) !important; }
+.pmBsantandercredit { background-image: url(../img/pm/santandercredit.png) !important; }
+.pmBsantanderdebit { background-image: url(../img/pm/santanderdebit.png) !important; }
+.pmBscbeasy { background-image: url(../img/pm/scbeasy.png) !important; }
+.pmBscotiabank { background-image: url(../img/pm/scotiabank.png) !important; }
+.pmBsendEmail { background-image: url(../img/pm/sendEmail.png) !important; }
+.pmBshopping { background-image: url(../img/pm/shopping.png) !important; }
+.pmBsms { background-image: url(../img/pm/sms.png) !important; }
+.pmBsolo { background-image: url(../img/pm/solo.png) !important; }
+
+.pmBtenpay { background-image: url(../img/pm/tenpay.png) !important; }
+.pmBterminal_RU { background-image: url(../img/pm/terminal_RU.png) !important; }
+.pmBtesco { background-image: url(../img/pm/tesco.png) !important; }
+.pmBtmbinternetbanking { background-image: url(../img/pm/tmbinternetbanking.png) !important; }
+
+.pmBukash { background-image: url(../img/pm/ukash.png) !important; }
+.pmBunionpay { background-image: url(../img/pm/unionpay.png) !important; }
+.pmBuobdirectdebit { background-image: url(../img/pm/uobdirectdebit.png) !important; }
+
+.pmBvias { background-image: url(../img/pm/vias.png) !important; }
+.pmBvisa { background-image: url(../img/pm/visa.png) !important; }
+.pmBvisa_fr { background-image: url(../img/pm/visa_fr.png) !important; }
+.pmBvisadankort { background-image: url(../img/pm/visadankort.png) !important; }
+.pmBvisahipotecario { background-image: url(../img/pm/visahipotecario.png) !important; }
+
+.pmBwallet_RU { background-image: url(../img/pm/wallet_RU.png) !important; }
+.pmBwallie { background-image: url(../img/pm/wallie.png) !important; }
+.pmBwebmoney { background-image: url(../img/pm/webmoney.png) !important; }
+.pmBwiwallet { background-image: url(../img/pm/wiwallet.png) !important; }
+.pmByandexmoney { background-image: url(../img/pm/yandexmoney.png) !important; }
+.pmByourgift { background-image: url(../img/pm/yourgift.png) !important; }
+
+
+.pmOcamex { background-image: url(../img/pm/amex_small.png); }
+.pmOcbijcard { background-image: url(../img/pm/bijcard_small.png); }
+.pmOccard { background-image: url(../img/pm/card_small.png); }
+.pmOcdiners { background-image: url(../img/pm/diners_small.png); }
+.pmOcdiscover { background-image: url(../img/pm/discover_small.png); }
+.pmOcelv { background-image: url(../img/pm/elv_small.png); }
+.pmOcgiropay { background-image: url(../img/pm/giropay_small.png); }
+.pmOcmaestrouk { background-image: url(../img/pm/maestrouk_small.png); }
+.pmOcmc { background-image: url(../img/pm/mc_small.png); }
+.pmOcsolo { background-image: url(../img/pm/solo_small.png); }
+.pmOcvisa { background-image: url(../img/pm/visa_small.png); }
+
+.pinimg { border: 1px solid #00aaef; }
+
+.pmmextradescription { text-align: center; }
+.pmmextradescriptionimg { padding-top: 4px; padding-left: 2px; padding-right: 2px; }

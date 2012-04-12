@@ -1,0 +1,18 @@
+<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->
+<%= render_file "cheader" %>
+
+<% adyen_form_tag do %>
+  <!-- ### inc/pmheader_[locale].txt or inc/pmheader.txt (fallback) ### -->
+  <%= render_file "pmheader" %>
+
+  <%= adyen_payment_fields %>
+
+  <!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->
+  <%= render_file "pmfooter" %>
+
+  <!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### -->
+  <%= render_file "customfields" %>
+<% end %>
+
+<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->
+<%= render_file "cfooter" %>

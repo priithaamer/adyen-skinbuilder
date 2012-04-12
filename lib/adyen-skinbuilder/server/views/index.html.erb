@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Adyen Skinbuilder</title>
+    <style>
+      body {
+        margin: 20px;
+        padding: 0px;
+        border: 0px;
+        background-color: #CECECE;
+        font-size: 0.8em;
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+      }
+
+      h1 {
+        color: #F0AB00;
+        font-size: 1.8em;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+      }
+
+      .content {
+        min-height: 480px;
+        background: #FFFFFF;
+      }
+
+      .top {
+        height: 15px; /* 95px */
+        background: #3C8A2E;
+      }
+
+      .skins {
+        padding-left: 150px;
+      }
+
+      .warning {
+        color: red;
+        margin: 20px;
+      }
+
+      table {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+
+      tr th {
+        background-color: #CCC;
+      }
+
+      td {
+        padding: 1px 3px;
+      }
+
+      tbody tr:nth-child(2n) {
+         background-color: #EAEAEA;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="top"></div>
+      <div class="skins">
+        <h1>Adyen Skins</h1>
+
+        <% unless @adyen_admin_cfg %>
+          <div class="warning">No Adyen Admin config found. Please create a <i>.adyenrc</i> with credentials, see <a href="">more details see here</a></div>
+        <% end %>
+
+        Skins found in <i><%= skin_path %></i>
+        <br>
+
+        <table>
+          <tr>
+             <th>Status</th>
+             <th>Name</th>
+             <th>Code</th>
+             <th>Action</th>
+             <th>Remote</th>
+          </tr>
+          <tbody>
+            <% @skins.each do |skin| %>
+              <tr>
+                <td>
+                  <%= "R" unless skin.frozen? %>
+                  <%= "L" if skin.path %>
+                </td>
+                <td><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png"><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.name || skin.code %></a></td>
+                <td><%= skin.code %></td>
+                <td>
+                  <% if @adyen_admin_cfg && !skin.frozen? %>
+                    <% if skin.path %>
+                      <a href="/<%= File.basename(skin.path.to_s) %>?upload=true">upload</a>
+                    <% else %>
+                      <a href="/?download=<%= skin.code %>">download</a>
+                    <% end %>
+                  <% else %>
+                    <a href="/<%= File.basename(skin.path.to_s) %>?compile=true">compile</a>
+                  <% end %>
+                </td>
+                <td>
+                  <% if !skin.frozen? %>
+                    <a href="https://ca-test.adyen.com/ca/ca/skin/testpayment.shtml?skinCode=<%= skin.code %>" target="_blank">test</a>
+                    <a href="https://ca-test.adyen.com/ca/ca/skin/editskin.shtml?skinCode=<%= skin.code %>" target="_blank">edit</a>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% if @adyen_admin_cfg %>
+          <a href="?sync=true">Sync with remote Adyen Admin<a>
+        <% end %>
+      </div>
+    </div>
+
+  </body>
+</html>
