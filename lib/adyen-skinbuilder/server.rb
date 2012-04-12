@@ -77,10 +77,19 @@ module Adyen
       get '/:skin_code' do |skin_code|
         @skin_code = skin_code
 
-        erb(skin_file(@skin_code).to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym).tap do
-          if params[:upload] && (@skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code)))
-            adyen_login
-            @skin.upload
+        erb(skin_file(@skin_code).to_sym, {
+          :views => '/',
+          :layout => File.join(settings.views, "layout.html").to_sym
+        }).tap do |output|
+          if @skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code))
+            if params[:compile]
+              store(output)
+              send_file(@skin.compile) && return
+            elsif params[:upload]
+              store(output)
+              adyen_login
+              @skin.upload
+            end
           end
         end
       end
@@ -93,6 +102,9 @@ module Adyen
           Adyen::Admin::Skin.purge_cache
           adyen_login
           @@all_skins = Adyen::Admin::Skin.all
+        end
+        if params[:download] && (@skin = Adyen::Admin::Skin.find(params[:download]))
+          @skin.download
         end
         @skins = @@all_skins || Adyen::Admin::Skin.all_local
         @adyen_admin_cfg = settings.adyen_admin_cfg

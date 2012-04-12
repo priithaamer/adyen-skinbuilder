@@ -33,9 +33,28 @@ See `adyen-skinbuilder --help` for more options to run server on different port 
 
 ## Skin Strucutre
 
+Usually Adyen requires to split up you skin page in four different files. But no worries, Skinbuilder does that for you. Yes you read right, all the content lifes within one file. The only thing you have to do is to create a file `skin.html.erb` and make use of handy helper method to define adyen form and payment fields. A most minimal file would look like:
+
+```
+<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->
+
+<% adyen_form_tag do %>
+  <!-- ### inc/pmheader_[locale].txt or inc/pmheader.txt (fallback) ### -->
+
+  <%= adyen_payment_fields %>
+
+  <!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->
+
+  <!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### -->
+<% end %>
+
+<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->
+```
 
 
-### Base directory
+### Code Sharing
+
+_was Base directory_
 
 If you have multiple skin directories, this gem supports base directory that can provide files that will be included in all skins without the need to duplicate them. Let's consider this example:
 

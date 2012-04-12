@@ -2,8 +2,8 @@ module Adyen
   module SkinBuilder
     module Helper
       module Render
-        def store
-          buffer.scan(/<!-- ### inc\/([a-z]+) -->(.+?)<!-- ### -->/m) do |name, content|
+        def store(output)
+          output.scan(/<!-- ### inc\/([a-z]+) -->(.+?)<!-- ### -->/m) do |name, content|
             file = skin_path @skin_code, "/inc/#{name}.txt"
             `mkdir -p #{File.dirname(file)}`
             File.open(file, "w") do |f|

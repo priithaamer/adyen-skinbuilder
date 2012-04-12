@@ -14,7 +14,11 @@ describe 'SkinBuilder server' do
     end.new
   end
 
-  describe 'get asset from skin directory' do
+  before do
+    Adyen::Admin.stub(:login)
+  end
+
+  describe 'assets' do
     let(:file) { '/css/screen.css' }
 
     before(:each) do
@@ -32,98 +36,135 @@ describe 'SkinBuilder server' do
     it 'returns file content' do
       last_response.body.should == File.read(skins_directory + skin_code + file)
     end
-  end
 
-  describe 'get asset from skins base directory' do
-    let(:file) { '/css/print.css' }
+    context 'file not available, falls back to base' do
+      let(:file) { '/css/print.css' }
 
-    before(:each) do
-      get '/sf' + skin_code + file
-    end
+      it 'responds with 200 status' do
+        last_response.status.should == 200
+      end
 
-    it 'responds with 200 status' do
-      last_response.status.should == 200
-    end
+      it 'responds with "text/css" content type header for CSS file' do
+        last_response.headers.fetch('Content-Type').should == 'text/css;charset=utf-8'
+      end
 
-    it 'responds with "text/css" content type header for CSS file' do
-      last_response.headers.fetch('Content-Type').should == 'text/css;charset=utf-8'
-    end
-
-    it 'returns file content' do
-      last_response.body.should == File.read(skins_directory + "/base" + file)
+      it 'returns file content from base' do
+        last_response.body.should == File.read(skins_directory + "/base" + file)
+      end
     end
   end
 
   describe 'GET /' do
-    before(:each) do
-      get path
-    end
-
-    context "index" do
-      let(:path) { '/' }
-
-      it 'responds with 200 status' do
-        last_response.status.should == 200
+    context "split files skin" do
+      before(:each) do
+        get path
       end
 
-      it 'returns adyen skeleton in HTML format' do
-        last_response.headers.fetch('Content-Type').should == 'text/html;charset=utf-8'
+      describe "index" do
+        let(:path) { '/' }
+
+        it 'responds with 200 status' do
+          last_response.status.should == 200
+        end
+
+        it 'returns adyen skeleton in HTML format' do
+          last_response.headers.fetch('Content-Type').should == 'text/html;charset=utf-8'
+        end
+
+        it 'returns skins_directory' do
+          last_response.body.should include(skins_directory)
+        end
+
+        it 'returns avilable skins' do
+          last_response.body.should include(skin_code)
+        end
       end
 
-      it 'returns skins_directory' do
-        last_response.body.should include(skins_directory)
-      end
+      describe "skin" do
+        let(:path) { skin_code }
 
-      it 'returns avilable skins' do
-        last_response.body.should include(skin_code)
-      end
-    end
+        it 'responds with 200 status' do
+          last_response.status.should == 200
+        end
 
-    context "skin" do
-      let(:path) { skin_code }
+        it 'returns adyen skeleton in HTML format' do
+          last_response.headers.fetch('Content-Type').should == 'text/html;charset=utf-8'
+        end
 
-      it 'responds with 200 status' do
-        last_response.status.should == 200
-      end
+        it 'returns adyen form' do
+          last_response.body.should include('<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">')
+        end
 
-      it 'returns adyen skeleton in HTML format' do
-        last_response.headers.fetch('Content-Type').should == 'text/html;charset=utf-8'
-      end
-
-      it 'returns adyen form' do
-        last_response.body.should include('<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">')
-      end
-
-      it 'returns order data' do
-        last_response.body.should include(File.read(skins_directory + skin_code + '/inc/order_data.txt'))
+        it 'returns order data' do
+          last_response.body.should include(File.read(skins_directory + skin_code + '/inc/order_data.txt'))
+        end
       end
     end
 
     context "one file skin" do
-      let(:skin_code) { "/JH0815" }
-      let(:path) { skin_code + '?upload=true'}
+      describe "compile" do
+        let(:skin_code) { "/JH0815" }
+        let(:path) { skin_code + "?compile=true" }
 
-      after do
-        FileUtils.rm_rf(skins_directory + skin_code + '/inc')
+        before(:each) do
+          get path
+        end
+
+        after do
+          FileUtils.rm_rf(skins_directory + skin_code + '/inc')
+        end
+
+        it 'writes cheader' do
+          File.read(skins_directory + skin_code + '/inc/cheader.txt').should == "<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->"
+        end
+
+        it 'writes pmheader' do
+          File.read(skins_directory + skin_code + '/inc/pmheader.txt').should == "<!-- ### inc/pmheader_[locale].txt or inc/pmheader.txt (fallback) ### -->"
+        end
+
+        it 'writes pmfooter' do
+          File.read(skins_directory + skin_code + '/inc/pmfooter.txt').should == "<!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->\n\n  <!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### -->"
+        end
+
+        it 'writes cfooter' do
+          File.read(skins_directory + skin_code + '/inc/cfooter.txt').should == "<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->"
+        end
+
+        it "returns zip file" do
+          last_response.headers["Content-Type"].should == "application/zip"
+        end
       end
 
-      it 'writes cheader' do
-        File.read(skins_directory + skin_code + '/inc/cheader.txt').should == "<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->"
+      describe "upload" do
+        let(:path) { skin_code + "?upload=true" }
+        let!(:skin) { Adyen::Admin::Skin.new(:path => skins_directory + skin_code) }
+
+        after do
+          `rm -rf #{skins_directory + skin_code}/inc/*er.txt`
+        end
+
+        it "calls upload on skin" do
+          Adyen::Admin::Skin.should_receive(:new).and_return(skin)
+          skin.should_receive(:upload)
+          get path
+        end
       end
 
-      it 'writes pmheader' do
-        File.read(skins_directory + skin_code + '/inc/pmheader.txt').should == "<!-- ### inc/pmheader_[locale].txt or inc/pmheader.txt (fallback) ### -->"
-      end
+      describe "download" do
+        let(:path) { "?download=#{skin_code}" }
+        let(:skin) { Adyen::Admin::Skin.new(:path => skins_directory + skin_code) }
 
-      it 'writes pmfooter' do
-        File.read(skins_directory + skin_code + '/inc/pmfooter.txt').should == "<!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->\n\n  <!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### -->"
-      end
+        after do
+          `rm -rf #{skins_directory + skin_code}/inc/*er.txt`
+        end
 
-      it 'writes cfooter' do
-        File.read(skins_directory + skin_code + '/inc/cfooter.txt').should == "<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->"
+        it "call download on skin" do
+          Adyen::Admin::Skin.should_receive(:find).and_return(skin)
+          skin.should_receive(:download)
+          get path
+        end
       end
     end
-
   end
 
   describe 'HEAD /' do
