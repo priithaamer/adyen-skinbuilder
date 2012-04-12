@@ -8,13 +8,13 @@ Simple Sinatra server to make Adyen skin authoring easier. It does the template 
 
 ## Usage
 
-Adyen Skinbuilder provides to different pages.
+Adyen Skinbuilder provides to different pages:
 
 ### Payment Page
 
 Start the server by providing the local path to your skin
 
-  $ adyen-skinbuilder ~/Documents/DV3tf95f
+    $ adyen-skinbuilder ~/Documents/DV3tf95f
 
 A browser will open and show the rendered result.
 
@@ -22,7 +22,7 @@ A browser will open and show the rendered result.
 
 Navigate to root "/" or provide the skin parent directory to access the index page.
 
-  $ adyen-skinbuilder ~/Documents/
+    $ adyen-skinbuilder ~/Documents/
 
 
 There, you get to option to sync local skin with remote ones, upload a local skin or directly jump to a test page.
@@ -33,30 +33,30 @@ See `adyen-skinbuilder --help` for more options to run server on different port 
 
 ## Skin Strucutre
 
-Usually Adyen requires to split up you skin page in four different files. But no worries, Skinbuilder does that for you. Yes you read right, all the content lifes within one file. The only thing you have to do is to create a file `skin.html.erb` and make use of handy helper method to define adyen form and payment fields. A most minimal file would look like:
+Usually Adyen requires to split up the skin page in up to four different files. But no worries, Skinbuilder does that for you. Yes, you read right: you just put all the content in one main file `skin.html.erb` - Skinbuilder will auto split, zip and even upload the skin. Wihtin the skin file you can make use of handy helper methods to define adyen form and payment fields or even to render other partials. A most minimal file would look like:
 
-```
-<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->
+```html
+<h1> exmaple skin</h1>
 
 <% adyen_form_tag do %>
-  <!-- ### inc/pmheader_[locale].txt or inc/pmheader.txt (fallback) ### -->
-
+  <h3>header</h3>
   <%= adyen_payment_fields %>
-
-  <!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->
-
-  <!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### -->
 <% end %>
 
-<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->
 ```
-
 
 ### Code Sharing
 
-_was Base directory_
+If you have multiple skin directories, this gem supports several ways how to share code in between:
 
-If you have multiple skin directories, this gem supports base directory that can provide files that will be included in all skins without the need to duplicate them. Let's consider this example:
+#### Shared Partials
+
+
+#### Base directory
+
+_Deprecated since Version 0.3_
+
+ Create a `base` directory to provide files that will be included in all skins without the need to duplicate them. Let's consider this example:
 
     +- ~/Documents
       +- base
@@ -69,21 +69,25 @@ If you have multiple skin directories, this gem supports base directory that can
 
 File in specific skin directory takes precedence when building skin zip file. In this example, `cheader.txt` will be bundled from skin directory `DV3tf95f/inc` but `cfooter.txt` comes from `base/inc`.
 
-## Order Data
+### Order Data
 
 Adyen let's you post order data that will be shown in shopping cart view as part of html. You can put `order_data.txt` file into `inc/` folder in the skin directory. This file will be included automatically in the same place, where adyen would put it.
 
 ## Building skin for upload
 
-There is a convenient Rake task that will create zip file of the skin file. It can be used either by providing directories as rake task arguments:
+For the easiest way to upload a skin, we encourage to provide the Adyen Admin credentials within the `.adyenrc` file, either in you home- or execution root directory.
 
-    rake adyen:skin:build['/path/to/skin/directory','/path/to/target']
+Exmaple `.adyenrc` file:
 
-Also, providing environment variables will work:
+```
+accountname: <your account>
+username: <your username>
+password: <your password>
+```
 
-    rake adyen:skin:build SKIN=/path/to/skin/directory TARGET=/path/to/target
+Navigate to the index page `/` and find the option to upload the skin. In anycase you can download the zipped skinfile via `compile` link.
 
-### More meaningful file naming
+## More meaningful file naming
 
 Adyen requires the name of root directory within the zip file to exactly match the skincode, e.g. `DV3tf95f`.
 These skincodes are not very meaningful and hard to remember.

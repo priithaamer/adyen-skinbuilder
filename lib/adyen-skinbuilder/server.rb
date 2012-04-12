@@ -44,6 +44,16 @@ module Adyen
         end
       end
 
+      def store(output)
+        output.scan(/<!-- ### inc\/([a-z]+) -->(.+?)<!-- ### -->/m) do |name, content|
+          file = skin_path @skin_code, "/inc/#{name}.txt"
+          `mkdir -p #{File.dirname(file)}`
+          File.open(file, "w") do |f|
+            f.write content.strip
+          end
+        end
+      end
+
       def adyen_login
         if settings.adyen_admin_cfg && !Adyen::Admin.authenticated?
           cfg = settings.adyen_admin_cfg

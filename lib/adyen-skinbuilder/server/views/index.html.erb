@@ -72,8 +72,8 @@
         <table>
           <tr>
              <th>Status</th>
-             <th>Code</th>
              <th>Name</th>
+             <th>Code</th>
              <th>Action</th>
              <th>Remote</th>
           </tr>
@@ -84,8 +84,8 @@
                   <%= "R" unless skin.frozen? %>
                   <%= "L" if skin.path %>
                 </td>
-                <td><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png"><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.code %></a></td>
-                <td><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.name %></a></td>
+                <td><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png"><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.name || skin.code %></a></td>
+                <td><%= skin.code %></td>
                 <td>
                   <% if @adyen_admin_cfg && !skin.frozen? %>
                     <% if skin.path %>
