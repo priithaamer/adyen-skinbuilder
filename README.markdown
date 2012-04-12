@@ -1,6 +1,6 @@
 # Adyen Skinbuilder [![Build Status](https://secure.travis-ci.org/priithaamer/adyen-skinbuilder.png?branch=master)](http://travis-ci.org/priithaamer/adyen-skinbuilder)
 
-Simple Sinatra server to make Adyen skin authoring easier. Also includes rake tasks to bundle skin directories into deployable bundles.
+Simple Sinatra server to make Adyen skin authoring easier. It does the template rendering on your local machine, which is very much similar to the end result generated in Adyen. Given adyen admin credentials provided, it also allows to upload and test skin within just one click.
 
 ## Install
 
@@ -8,24 +8,32 @@ Simple Sinatra server to make Adyen skin authoring easier. Also includes rake ta
 
 ## Usage
 
-Make sure you have directory with basic Adyen skin structure, that looks something like this:
+Adyen Skinbuilder provides to different pages.
 
-    +- ~/Documents
-      +- DV3tf95f
-        +- css
-        +- img
-        +- inc
-          +- cfooter.txt
-          +- cheader.txt
-        +- js
+### Payment Page
 
-To view something that is very much similar to the end result generated in Adyen, fire up adyen-skinbuilder sinatra server, that does the template rendering on your local machine:
+Start the server by providing the local path to your skin
 
-    $ adyen-skinbuilder ~/Documents/DV3tf95f
+  $ adyen-skinbuilder ~/Documents/DV3tf95f
 
-Your browser will open and show you the rendered result.
+A browser will open and show the rendered result.
+
+### Index Page
+
+Navigate to root "/" or provide the skin parent directory to access the index page.
+
+  $ adyen-skinbuilder ~/Documents/
+
+
+There, you get to option to sync local skin with remote ones, upload a local skin or directly jump to a test page.
+
 
 See `adyen-skinbuilder --help` for more options to run server on different port or with logging etc. Run `adyen-skinbuilder -k` to shutdown.
+
+
+## Skin Strucutre
+
+
 
 ### Base directory
 

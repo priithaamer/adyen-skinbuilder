@@ -10,7 +10,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    adyen-admin (0.0.2)
+    adyen-admin (0.0.4)
       mechanize
       rubyzip
     backports (2.5.1)

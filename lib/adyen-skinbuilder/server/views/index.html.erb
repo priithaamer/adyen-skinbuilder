@@ -32,6 +32,28 @@
       .skins {
         padding-left: 150px;
       }
+
+      .warning {
+        color: red;
+        margin: 20px;
+      }
+
+      table {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+
+      tr th {
+        background-color: #CCC;
+      }
+
+      td {
+        padding: 1px 3px;
+      }
+
+      tbody tr:nth-child(2n) {
+         background-color: #EAEAEA;
+      }
     </style>
   </head>
   <body>
@@ -40,25 +62,53 @@
       <div class="skins">
         <h1>Adyen Skins</h1>
 
+        <% unless @adyen_admin_cfg %>
+          <div class="warning">No Adyen Admin config found. Please create a <i>.adyenrc</i> with credentials, see <a href="">more details see here</a></div>
+        <% end %>
+
         Skins found in <i><%= skin_path %></i>
+        <br>
 
         <table>
           <tr>
+             <th>Status</th>
              <th>Code</th>
              <th>Name</th>
-             <th>Menu</th>
+             <th>Action</th>
+             <th>Remote</th>
           </tr>
-          <% @skins.each do |skin| %>
-            <tr>
-              <td><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.code %></a></td>
-              <td><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.name %></a></td>
-              <td>
-                 <a href="/<%= File.basename(skin.path.to_s) %>?upload=true">upload</a>
-                 <a href="https://ca-test.adyen.com/ca/ca/skin/testpayment.shtml?skinCode=<%= skin.code %>" target="_blank">test</a>
-              </td>
-            </tr>
-          <% end %>
-        </ul>
+          <tbody>
+            <% @skins.each do |skin| %>
+              <tr>
+                <td>
+                  <%= "R" unless skin.frozen? %>
+                  <%= "L" if skin.path %>
+                </td>
+                <td><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png"><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.code %></a></td>
+                <td><a href="/<%= File.basename(skin.path.to_s) %>"><%= skin.name %></a></td>
+                <td>
+                  <% if @adyen_admin_cfg && !skin.frozen? %>
+                    <% if skin.path %>
+                      <a href="/<%= File.basename(skin.path.to_s) %>?upload=true">upload</a>
+                    <% else %>
+                      <a href="/?download=<%= skin.code %>">download</a>
+                    <% end %>
+                  <% else %>
+                    <a href="/<%= File.basename(skin.path.to_s) %>?compile=true">compile</a>
+                  <% end %>
+                </td>
+                <td>
+                  <% if !skin.frozen? %>
+                    <a href="https://ca-test.adyen.com/ca/ca/skin/testpayment.shtml?skinCode=<%= skin.code %>" target="_blank">test</a>
+                    <a href="https://ca-test.adyen.com/ca/ca/skin/editskin.shtml?skinCode=<%= skin.code %>" target="_blank">edit</a>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <a href="?sync=true">Sync Remote<a>
       </div>
     </div>
 

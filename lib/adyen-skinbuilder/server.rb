@@ -1,7 +1,10 @@
 require 'rubygems'
-require "bundler/setup"
+require 'bundler/setup'
 
 require 'sinatra/base'
+require 'adyen-skinbuilder/helper/adyen'
+require 'adyen-skinbuilder/helper/render'
+
 require 'adyen-admin'
 
 module Adyen
@@ -14,6 +17,10 @@ module Adyen
       # method will be overwritten by _vegas_ if skin directory given
       def self.skins_directory
         File.expand_path(".")
+      end
+
+      def self.adyen_admin_cfg
+        nil
       end
 
       def skins_directory
@@ -37,49 +44,14 @@ module Adyen
         end
       end
 
-      helpers do
-        def store
-          buffer.scan(/<!-- ### inc\/([a-z]+) -->(.+?)<!-- ### -->/m) do |name, content|
-            file = skin_path @skin_code, "/inc/#{name}.txt"
-            `mkdir -p #{File.dirname(file)}`
-            File.open(file, "w") do |f|
-              f.write content.strip
-            end
-          end
-        end
-
-        def buffer
-          @_out_buf || @_buf
-        end
-
-        def capture
-          pos = buffer.size
-          yield
-          buffer.slice!(pos..buffer.size)
-        end
-
-        def load(file)
-          file = skin_path @skin_code, "/inc/#{file}.txt"
-          File.read(file) if File.exists?(file)
-        end
-
-        def render_partial(file, locals = {})
-          views = locals.delete(:views) || skin_path(@skin_code)
-          erb "_#{file}.html".to_sym, :layout => false, :views => views, :locals => locals
-        end
-
-        def adyen_form_tag(&block)
-          buffer << render_partial(:adyen_form, :views => settings.views, :block => block)
-        end
-
-        def adyen_payment_fields(&block)
-          if block_given?
-            capture &block
-          else
-            render_partial :adyen_payment_fields, :views => settings.views
-          end
+      def adyen_login
+        if settings.adyen_admin_cfg && !Adyen::Admin.authenticated?
+          cfg = settings.adyen_admin_cfg
+          Adyen::Admin.login(cfg[:accountname], cfg[:username], cfg[:password])
         end
       end
+
+      helpers Helper::Render, Helper::Adyen
 
       get '/sf/:skin_code/*' do |skin_code, path|
         if (file = skin_path(skin_code, path)) && File.exists?(file)
@@ -101,22 +73,29 @@ module Adyen
       get '/favicon.ico' do
       end
 
+      # skin page
       get '/:skin_code' do |skin_code|
         @skin_code = skin_code
 
-        if params[:upload]
-          cfg = settings.adyen_admin_cfg
-          Adyen::Admin.login(cfg[:accountname], cfg[:username], cfg[:password])
-          if @skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code))
+        erb(skin_file(@skin_code).to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym).tap do
+          if params[:upload] && (@skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code)))
+            adyen_login
             @skin.upload
           end
         end
-
-        erb skin_file(@skin_code).to_sym, :views => '/', :layout => File.join(settings.views, "layout.html").to_sym
       end
 
+      @@all_skins = nil
+      # index page
       get '/' do
-        @skins = Adyen::Admin::Skin.all_remote | Adyen::Admin::Skin.all_local(skin_path)
+        Adyen::Admin::Skin.default_path = skin_path
+        if params[:sync]
+          Adyen::Admin::Skin.purge_cache
+          adyen_login
+          @@all_skins = Adyen::Admin::Skin.all
+        end
+        @skins = @@all_skins || Adyen::Admin::Skin.all_local
+        @adyen_admin_cfg = settings.adyen_admin_cfg
 
         erb 'index.html'.to_sym, :layout => false
       end

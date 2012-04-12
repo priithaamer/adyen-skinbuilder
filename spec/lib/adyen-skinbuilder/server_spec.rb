@@ -101,7 +101,7 @@ describe 'SkinBuilder server' do
 
     context "one file skin" do
       let(:skin_code) { "/JH0815" }
-      let(:path) { skin_code + '?compile=true'}
+      let(:path) { skin_code + '?upload=true'}
 
       after do
         FileUtils.rm_rf(skins_directory + skin_code + '/inc')
