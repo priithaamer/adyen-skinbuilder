@@ -23,6 +23,9 @@ module Adyen
         #
         # def adyen_custom_hidden_tag
         # end
+
+        ## autofill cc
+        ## autofill avs
       end
     end
   end
