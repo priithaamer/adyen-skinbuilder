@@ -63,16 +63,17 @@
         <h1>Adyen Skins</h1>
 
         <% unless @adyen_admin_cfg %>
-          <div class="warning">No Adyen Admin config found. Please create a <i>.adyenrc</i> with credentials, see <a href="">more details see here</a></div>
+          <div class="warning">No Adyen Admin config found. Please create a <i>.adyenrc</i> with credentials, see <a href="https://github.com/priithaamer/adyen-skinbuilder#interacting-with-remote-adyen-admin">more details see here</a></div>
         <% end %>
 
-        Skins found in <i><%= skin_path %></i>
+        Skins found in <i><%= skins_directory %></i>
         <br>
 
         <table>
           <tr>
              <th>Status</th>
              <th>Name</th>
+             <th>Versions</th>
              <th>Action</th>
              <th>Remote</th>
           </tr>
@@ -83,16 +84,26 @@
                   <%= "R" unless skin.frozen? %>
                   <%= "L" if skin.path %>
                 </td>
-                <td><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png"><a href="/<%= File.basename(skin.path.to_s) %>"> <%= File.basename(skin.path.to_s) %></a></td>
+                <td><a href="/<%= skin.code %>"><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png" border="0"><%= skin.name || skin.code %></a></td>
                 <td>
-                  <% if @adyen_admin_cfg && !skin.frozen? %>
+                  <% if !skin.frozen? %>
+                    <%= skin.version %>
+                    -
+                    <%= skin.version_test %>
+                    -
+                    <%= skin.version_live %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if Adyen::Admin.authenticated? && !skin.frozen? %>
                     <% if skin.path %>
-                      <a href="/<%= File.basename(skin.path.to_s) %>?upload=true">upload</a>
+                      <a href="/<%= skin.code %>/upload">upload</a>
                     <% else %>
-                      <a href="/?download=<%= skin.code %>">download</a>
+                      <a href="/<%= skin.code %>/download">download</a>
                     <% end %>
+                      <a href="/<%= skin.code %>/update">update</a>
                   <% else %>
-                    <a href="/<%= File.basename(skin.path.to_s) %>?compile=true">compile</a>
+                    <a href="/<%= skin.code %>/compile">compile</a>
                   <% end %>
                 </td>
                 <td>
@@ -107,7 +118,7 @@
         </table>
 
         <% if @adyen_admin_cfg %>
-          <a href="?sync=true">Sync with remote Adyen Admin<a>
+          <a href="/sync">Sync with remote Adyen Admin<a>
         <% end %>
       </div>
     </div>
