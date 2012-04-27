@@ -25,6 +25,7 @@ module Adyen
 
       def skins_directory
         @@skins_directory ||= begin
+          # check if it's a skin, if so use dirname
           Adyen::Admin::Skin.new(:path => settings.skins_directory)
           File.dirname(settings.skins_directory)
         rescue ArgumentError
@@ -32,41 +33,33 @@ module Adyen
         end
       end
 
-      def skin_path(*path)
-        File.join(skins_directory, *path)
-      end
-
-      def skin_file(skin_code)
-        skin_path(skin_code, "skin.html").tap do |file|
+      def skin_file(skin, filename = "skin.html")
+        File.join(skin.path, filename).tap do |file|
           if !File.exists?("#{file}.erb")
-            file.replace File.join(settings.views, "skin.html")
-          end
-        end
-      end
-
-      def store(output)
-        output.scan(/<!-- ### inc\/([a-z]+) -->(.+?)<!-- ### -->/m) do |name, content|
-          file = skin_path @skin_code, "/inc/#{name}.txt"
-          `mkdir -p #{File.dirname(file)}`
-          File.open(file, "w") do |f|
-            f.write content.strip
+            return File.join(settings.views, filename)
           end
         end
       end
 
       def adyen_login
-        if settings.adyen_admin_cfg && !Adyen::Admin.authenticated?
-          cfg = settings.adyen_admin_cfg
+        if (cfg = settings.adyen_admin_cfg) && !Adyen::Admin.authenticated?
           Adyen::Admin.login(cfg[:accountname], cfg[:username], cfg[:password])
         end
+      end
+
+      def render_skin(skin)
+        erb(skin_file(skin).to_sym, {
+          :views => '/',
+          :layout => File.join(settings.views, "layout.html").to_sym
+        })
       end
 
       helpers Helper::Render, Helper::Adyen
 
       get '/sf/:skin_code/*' do |skin_code, path|
-        if (file = skin_path(skin_code, path)) && File.exists?(file)
+        if (skin = Adyen::Admin::Skin.find(skin_code)) && (file = File.join(skin.path, path)) && File.exists?(file)
           send_file file
-        elsif (file = skin_path("base", path)) && File.exists?(file)
+        elsif (file = File.join(skins_directory, "base", path)) && File.exists?(file)
           send_file file
         end
       end
@@ -83,46 +76,63 @@ module Adyen
       get '/favicon.ico' do
       end
 
-      # skin page
-      get '/:skin_code' do |skin_code|
-        @skin_code = skin_code
-
-        erb(skin_file(@skin_code).to_sym, {
-          :views => '/',
-          :layout => File.join(settings.views, "layout.html").to_sym
-        }).tap do |output|
-          if @skin = Adyen::Admin::Skin.new(:path => skin_path(skin_code))
-            if params[:compile]
-              store(output)
-              send_file(@skin.compile) && return
-            elsif params[:upload]
-              store(output)
-              adyen_login
-              @skin.upload
-            end
-          end
+      get '/:skin_code/upload' do |skin_code|
+        if @skin = Adyen::Admin::Skin.find(skin_code)
+          output = render_skin @skin
+          @skin.compile(output)
+          @skin.upload
         end
+        redirect '/sync'
       end
 
-      # cache remote skins
-      @@skin_cache = nil
-
-      # index page
-      get '/' do
-        Adyen::Admin::Skin.default_path = skin_path
-        if params[:sync]
-          Adyen::Admin::Skin.purge_cache
-          adyen_login
-          @@skin_cache = Adyen::Admin::Skin.all
-        end
-        if params[:download] && (@skin = Adyen::Admin::Skin.find(params[:download]))
+      get '/:skin_code/download' do |skin_code|
+        if @skin = Adyen::Admin::Skin.find(skin_code)
           @skin.download.tap do |zip_file|
             @skin.decompile(zip_file)
-            `cp #{skin_file(@skin.code)}.erb #{@skin.path}`
+            `cp #{skin_file(@skin)}.erb #{@skin.path}`
             `rm -f #{zip_file}`
           end
         end
-        @skins = @@skin_cache || Adyen::Admin::Skin.all_local
+        redirect '/'
+      end
+
+      get '/:skin_code/update' do |skin_code|
+        if @skin = Adyen::Admin::Skin.find(skin_code)
+          @skin.update
+        end
+        redirect '/sync'
+      end
+
+      get '/:skin_code/compile' do |skin_code|
+        if @skin = Adyen::Admin::Skin.find(skin_code)
+          output = render_skin @skin
+          @skin.compile(output)
+          send_file(@skin.compress)
+        else
+          redirect '/'
+        end
+      end
+
+      get '/sync' do
+        Adyen::Admin::Skin.default_path = skins_directory
+        Adyen::Admin::Skin.purge_cache
+        adyen_login
+        redirect '/'
+      end
+
+      # skin page
+      get '/:skin_code' do |skin_code|
+        if @skin = Adyen::Admin::Skin.find(skin_code)
+          render_skin @skin
+        else
+          redirect '/'
+        end
+      end
+
+      # index page
+      get '/' do
+        Adyen::Admin::Skin.default_path = skins_directory
+        @skins = Adyen::Admin::Skin.all
         @adyen_admin_cfg = settings.adyen_admin_cfg
 
         erb 'index.html'.to_sym, :layout => false

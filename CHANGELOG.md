@@ -4,10 +4,21 @@
   * multiple user, assets upload, hosted system
 
 ## Todo
-  * beautify index page, add 'new', 'edit', 'download'
+  * beautify index page, add 'new', 'edit'
   * add locale support
   * add more functions to binary to get a proper CLI tool (or move to adyen-admin??)
   * more helper e.g. cutom fields
+  * auto concatinate multiple .js files
+  * auto concatinate multiple .css files
+  * auto build example PaymentMethod skeleton
+  * support new CSS selectors
+
+## v0.3.1
+  * feature: see remote version
+  * feature: read skin code from skin.yaml file
+  * fix skincode name
+  * fix relative skin path
+  * fix non existing link to setup remote admin
   * auto re-login when session timed out
 
 ## v0.3.0
@@ -15,6 +26,7 @@
   * show local / remote skins, option to sync
   * add skin upload -> 'adyen-admin'
   * add skin export
+  * added action 'download'
   * gemify
   * add custom skin path
   * add order_data

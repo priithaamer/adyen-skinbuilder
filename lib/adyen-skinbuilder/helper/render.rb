@@ -17,13 +17,13 @@ module Adyen
 
         # renders a file from the inc folder of the skin
         def render_file(file)
-          file = skin_path @skin_code, "/inc/#{file}.txt"
+          file = File.join(@skin.path, "inc/#{file}.txt")
           File.read(file) if File.exists?(file)
         end
 
          # render an erb partial inline
         def render_partial(file, locals = {})
-          views = locals.delete(:views) || skin_path(@skin_code)
+          views = locals.delete(:views) || @skin.path
           erb "_#{file}.html".to_sym, :layout => false, :views => views, :locals => locals
         end
       end

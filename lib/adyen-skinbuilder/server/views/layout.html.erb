@@ -1,17 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <title>Page Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><%= @skin.code %> - Adyen-Skinbuilder</title>
 
     <link rel="stylesheet" media="screen" type="text/css" href="/hpp/css/reset.css" />
 
-    <link rel="stylesheet" media="screen" type="text/css" href="/sf/<%= @skin_code %>/css/screen.css" />
-    <link rel="stylesheet" media="print" type="text/css" href="/sf/<%= @skin_code %>/css/print.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/sf/<%= @skin.code %>/css/screen.css" />
+    <link rel="stylesheet" media="print" type="text/css" href="/sf/<%= @skin.code %>/css/print.css" />
 
     <script type="text/javascript" src="/hpp/js/default.js"></script>
-    <script type="text/javascript" src="/sf/<%= @skin_code %>/js/custom.js"></script>
+    <script type="text/javascript" src="/sf/<%= @skin.code %>/js/custom.js"></script>
     <!--[if lt IE 7]>
-      <link rel="stylesheet" type="text/css" href="/sf/<%= @skin_code %>/css/screen_ie6.css" />
+      <link rel="stylesheet" type="text/css" href="/sf/<%= @skin.code %>/css/screen_ie6.css" />
     <![endif]-->
   </head>
   <body>

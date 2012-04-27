@@ -8,7 +8,7 @@ opts = {}
 
 
 if (skins = ARGV.last) && File.directory?(skins)
-  opts[:skins_directory] = skins
+  opts[:skins_directory] = File.expand_path(skins)
 
   begin
     skin = Adyen::Admin::Skin.new(:path => skins) #auto launch skin

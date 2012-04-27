@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    adyen-skinbuilder (0.3.0.rc2)
+    adyen-skinbuilder (0.3.1)
       adyen-admin
       sinatra
       sinatra-contrib
@@ -10,7 +10,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    adyen-admin (0.0.7)
+    adyen-admin (0.0.12)
       mechanize
       rubyzip
     backports (2.5.1)
@@ -24,7 +24,7 @@ GEM
       thor (~> 0.14.6)
     guard-rspec (0.7.0)
       guard (>= 0.10.0)
-    mechanize (2.3)
+    mechanize (2.4)
       domain_name (~> 0.5, >= 0.5.1)
       mime-types (~> 1.17, >= 1.17.2)
       net-http-digest_auth (~> 1.1, >= 1.1.1)
