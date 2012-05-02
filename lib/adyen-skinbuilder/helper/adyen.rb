@@ -17,6 +17,10 @@ module Adyen
           end
         end
 
+        def adyen_skin_code
+          @skin.code
+        end
+
         # to be done
         # def adyen_custom_field_tag
         # end
