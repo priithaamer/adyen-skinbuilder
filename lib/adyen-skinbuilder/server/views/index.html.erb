@@ -84,7 +84,7 @@
                   <%= "R" unless skin.frozen? %>
                   <%= "L" if skin.path %>
                 </td>
-                <td><a href="/<%= skin.code %>"><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png" border="0"><%= skin.name || skin.code %></a></td>
+                <td><a href="/<%= skin.code %>"><img src="https://ca-test.adyen.com/ca/img/icons/layout_content.png" border="0"><%= !skin.name.empty? ? skin.name : skin.code %></a></td>
                 <td>
                   <% if !skin.frozen? %>
                     <%= skin.version %>

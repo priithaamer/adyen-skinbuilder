@@ -103,6 +103,14 @@ describe 'SkinBuilder server' do
       it 'returns order data' do
         last_response.body.should include(File.read(File.join(skins_directory, skin_code, 'inc/order_data.txt')))
       end
+
+      context "with metdafile" do
+        let(:skin_code) { "vQW0fEo8" }
+
+        it 'responds with 200 status' do
+          last_response.status.should == 200
+        end
+      end
     end
 
     describe "/compile" do
