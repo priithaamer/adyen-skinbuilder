@@ -23,14 +23,19 @@ module Adyen
 
          # render an erb partial inline
         def render_partial(file, locals = {})
-          views = locals.delete(:views) || @skin.path
-          erb inject_underscore(file).to_sym, :layout => false, :views => views, :locals => locals
+          file = partialize(file)
+          file = if views = locals.delete(:views)
+            File.join(views, file)
+          else
+            @skin.get_file(file)
+          end
+          erb File.basename(file).gsub(".erb", "").to_sym, :layout => false, :views => File.dirname(file), :locals => locals
         end
 
         private
-        def inject_underscore(path)
+        def partialize(path)
           path.to_s.split('/').tap do |path|
-            path[-1] = "_#{path.last}.html"
+            path[-1] = "_#{path.last}.html.erb"
           end.join("/")
         end
       end
