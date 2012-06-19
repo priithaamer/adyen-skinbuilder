@@ -23,8 +23,20 @@ module Adyen
 
          # render an erb partial inline
         def render_partial(file, locals = {})
-          views = locals.delete(:views) || @skin.path
-          erb "_#{file}.html".to_sym, :layout => false, :views => views, :locals => locals
+          file = partialize(file)
+          file = if views = locals.delete(:views)
+            File.join(views, file)
+          else
+            @skin.get_file(file)
+          end
+          erb File.basename(file).gsub(".erb", "").to_sym, :layout => false, :views => File.dirname(file), :locals => locals
+        end
+
+        private
+        def partialize(path)
+          path.to_s.split('/').tap do |path|
+            path[-1] = "_#{path.last}.html.erb"
+          end.join("/")
         end
       end
     end

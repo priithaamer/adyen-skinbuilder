@@ -33,11 +33,17 @@ module Adyen
         end
       end
 
-      def skin_file(skin, filename = "skin.html")
-        File.join(skin.path, filename).tap do |file|
-          if !File.exists?("#{file}.erb")
+      def skin_file(skin, filename)
+        skin.get_file(filename).tap do |file|
+          if !File.exists?(file)
             return File.join(settings.views, filename)
           end
+        end
+      end
+
+      def skin_erb_file(skin, filename = "skin.html")
+        if file = skin_file(skin, "#{filename}.erb")
+          return file.gsub(".erb", "")
         end
       end
 
@@ -48,7 +54,7 @@ module Adyen
       end
 
       def render_skin(skin)
-        erb(skin_file(skin).to_sym, {
+        erb(skin_erb_file(skin).to_sym, {
           :views => '/',
           :layout => File.join(settings.views, "layout.html").to_sym
         })
@@ -57,7 +63,7 @@ module Adyen
       helpers Helper::Render, Helper::Adyen
 
       get '/sf/:skin_code/*' do |skin_code, path|
-        if (skin = Adyen::Admin::Skin.find(skin_code)) && (file = File.join(skin.path, path)) && File.exists?(file)
+        if (skin = Adyen::Admin::Skin.find(skin_code)) && (file = skin.get_file(path)) && File.exists?(file)
           send_file file
         elsif (file = File.join(skins_directory, "base", path)) && File.exists?(file)
           send_file file
@@ -89,7 +95,7 @@ module Adyen
         if @skin = Adyen::Admin::Skin.find(skin_code)
           @skin.download.tap do |zip_file|
             @skin.decompile(zip_file)
-            `cp #{skin_file(@skin)}.erb #{@skin.path}`
+            `cp #{skin_erb_file(@skin)}.erb #{@skin.path}`
             `rm -f #{zip_file}`
           end
         end

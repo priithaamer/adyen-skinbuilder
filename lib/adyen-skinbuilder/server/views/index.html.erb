@@ -98,10 +98,10 @@
                   <% if Adyen::Admin.authenticated? && !skin.frozen? %>
                     <% if skin.path %>
                       <a href="/<%= skin.code %>/upload">upload</a>
+                      <a href="/<%= skin.code %>/update">update</a>
                     <% else %>
                       <a href="/<%= skin.code %>/download">download</a>
                     <% end %>
-                      <a href="/<%= skin.code %>/update">update</a>
                   <% else %>
                     <a href="/<%= skin.code %>/compile">compile</a>
                   <% end %>
