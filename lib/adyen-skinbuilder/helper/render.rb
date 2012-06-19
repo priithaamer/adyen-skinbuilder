@@ -29,7 +29,7 @@ module Adyen
 
         private
         def inject_underscore(path)
-          path.split('/').tap do |path|
+          path.to_s.split('/').tap do |path|
             path[-1] = "_#{path.last}.html"
           end.join("/")
         end
