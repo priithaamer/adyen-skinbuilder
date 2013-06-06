@@ -28,7 +28,7 @@ Usually Adyen requires to split up the skin page in up to four different files. 
 A most minimal file would look like:
 
 ```html
-<h1> exmaple skin</h1>
+<h1>Example skin</h1>
 
 <% adyen_form_tag do %>
   <h3>header</h3>
@@ -59,23 +59,6 @@ Similar as in rails, Skinbuilder allows to render other files inline, e.g.:
 ```
 
 This will load and render `header.html.erb` for your skin root on top of the form.
-
-#### Base directory
-
-_Deprecated since Version 0.3_
-
-Another way is to create a `base` directory to provide fallback files that will be included in all skins without the need to duplicate them. Let's consider this example:
-
-    +- ~/Documents
-      +- base
-        +- inc
-          +- cfooter.txt
-          +- cheader.txt
-      +- DV3tf95f
-        +- inc
-          +- cheader.txt
-
-File in specific skin directory takes precedence when building skin zip file. In this example, `cheader.txt` will be bundled from skin directory `DV3tf95f/inc` but `cfooter.txt` comes from `base/inc`.
 
 ### Order Data
 
