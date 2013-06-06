@@ -28,4 +28,8 @@ begin
 rescue
 end
 
-Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts)
+Vegas::Runner.new(Adyen::SkinBuilder::Server, 'adyen-skinbuilder', opts) do |runner, opt, app|
+  opt.on('-i PATH', '--i18n PATH', 'Load i18n translations from given directory') do |path|
+    opts[:i18n_path] = path
+  end
+end

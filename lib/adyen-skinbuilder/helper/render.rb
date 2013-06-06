@@ -8,7 +8,7 @@ module Adyen
           @_out_buf || @_buf
         end
 
-        # capture rednered output to a string
+        # capture rendered output to a string
         def capture
           pos = buffer.size
           yield
@@ -16,9 +16,19 @@ module Adyen
         end
 
         # renders a file from the inc folder of the skin
-        def render_file(file)
-          file = File.join(@skin.path, "inc/#{file}.txt")
-          File.read(file) if File.exists?(file)
+        def render_file(filename)
+          file = @skin.get_file("inc/#{filename}.txt")
+          localized_file = @skin.get_file("inc/#{filename}_#{@locale}.txt")
+          
+          if File.exists?(localized_file)
+            File.read(localized_file)
+          elsif File.exists?(file)
+            File.read(file)
+          end
+        end
+        
+        def t(*args)
+          I18n.t(*args)
         end
 
          # render an erb partial inline
@@ -33,6 +43,7 @@ module Adyen
         end
 
         private
+        
         def partialize(path)
           path.to_s.split('/').tap do |path|
             path[-1] = "_#{path.last}.html.erb"

@@ -11,7 +11,7 @@
   <div id="content">
     <div id="pmcontent">
 
-      <!-- ### inc/pmheader -->
+      <!-- ### inc/pmheader<%= @locale_suffix %> -->
 
       <%= adyen_payment_fields(&block) %>
 
@@ -25,8 +25,8 @@
         <div id="nextstepc">Next Step Text</div>
       </div>
       <div id="footerb1div">
-       <input onclick="" type="submit" id="mainSubmit" value="continue" class="footerB nextB" />
-    ￼￼</div>
+        <input onclick="" type="submit" id="mainSubmit" value="continue" class="footerB nextB" />
+      </div>
       <div id="footerb2div">
         <input onclick="" type="button" id="mainBack" value="previous" class="footerB backB" />
       </div>
@@ -34,4 +34,4 @@
   </div>
 </form>
 
-<!-- ### inc/cfooter -->
+<!-- ### inc/cfooter<%= @locale_suffix %> -->

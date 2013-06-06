@@ -7,13 +7,15 @@ require 'adyen-skinbuilder/helper/render'
 
 require 'adyen-admin'
 
+require 'i18n'
+
 module Adyen
   module SkinBuilder
     class Server < Sinatra::Base
       dir = File.dirname(File.expand_path(__FILE__))
 
       set :views, "#{dir}/server/views"
-
+      
       # method will be overwritten by _vegas_ if skin directory given
       def self.skins_directory
         File.expand_path(".")
@@ -22,7 +24,7 @@ module Adyen
       def self.adyen_admin_cfg
         nil
       end
-
+      
       def skins_directory
         @@skins_directory ||= begin
           # check if it's a skin, if so use dirname
@@ -62,6 +64,19 @@ module Adyen
 
       helpers Helper::Render, Helper::Adyen
 
+      before do
+        if settings.i18n_path
+          @locale = params.fetch('locale', 'en')
+          @locale_suffix = "_#{@locale}"
+          
+          I18n.load_path = Dir[File.join(settings.i18n_path, '*yml')]
+          I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
+          I18n.locale = @locale
+        else
+          @locale_suffix = ''
+        end
+      end
+
       get '/sf/:skin_code/*' do |skin_code, path|
         if (skin = Adyen::Admin::Skin.find(skin_code)) && (file = skin.get_file(path)) && File.exists?(file)
           send_file file
@@ -84,8 +99,7 @@ module Adyen
 
       get '/:skin_code/upload' do |skin_code|
         if @skin = Adyen::Admin::Skin.find(skin_code)
-          output = render_skin @skin
-          @skin.compile(output)
+          @skin.compile(render_skin(@skin))
           @skin.upload
         end
         redirect '/sync'
@@ -111,8 +125,14 @@ module Adyen
 
       get '/:skin_code/compile' do |skin_code|
         if @skin = Adyen::Admin::Skin.find(skin_code)
-          output = render_skin @skin
-          @skin.compile(output)
+          @locale_suffix = ''
+          @skin.compile(render_skin(@skin))
+          
+          I18n.available_locales.each do |locale|
+            I18n.locale = locale
+            @locale_suffix = "_#{locale}"
+            @skin.compile(render_skin(@skin))
+          end
           send_file(@skin.compress)
         else
           redirect '/'
@@ -140,7 +160,7 @@ module Adyen
         Adyen::Admin::Skin.default_path = skins_directory
         @skins = Adyen::Admin::Skin.all
         @adyen_admin_cfg = settings.adyen_admin_cfg
-
+        
         erb 'index.html'.to_sym, :layout => false
       end
     end
