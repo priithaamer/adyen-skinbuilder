@@ -191,7 +191,7 @@
             }
 
             function validateCcNumber(e, dontHideErrorFrame) {
-              cardNumber = (document.getElementById('cardNumber').value);
+              cardNumber = (document.getElementById('card.cardNumber').value);
 
               if(cardNumber.length <= previousCardNumber.length) {
                 previousCardNumber = cardNumber;
@@ -256,7 +256,7 @@
               result = result.replace(/\s+$/, ''); //remove trailing spaces
 
               previousCardNumber = result;
-              document.getElementById('cardNumber').value = result;
+              document.getElementById('card.cardNumber').value = result;
             }
 
             function setExtraCost(selectedCard, lookedUpCard) {
@@ -345,7 +345,7 @@
 
             function ccNumberPresentation(valid, dontHideErrorFrame){
               var errors = new Array();
-              errors.push("cardNumber");
+              errors.push("card.cardNumber");
               if(valid){
                 clearErrors(errors, dontHideErrorFrame);
               }
@@ -385,7 +385,7 @@
 
             validationFunctions
             function doCCCheck(){
-              cardNumber = (document.getElementById('cardNumber').value);
+              cardNumber = (document.getElementById('card.cardNumber').value);
               reg = /\s+/g;
               cardNumber = cardNumber.replace(reg,'');
               if(!luhnCheck(cardNumber))
@@ -524,7 +524,7 @@
         // find out what the CSS implementation calls the tr "display" value
         var cssTr = document.getElementById('cardNumberTr').style.display;
 
-        if(document.getElementById('cardNumber').value.length > 0) {
+        if(document.getElementById('card.cardNumber').value.length > 0) {
           var validateCcNumberTimer = setTimeout('validateCcNumber(null,true)', 2500);
         }
 
@@ -692,7 +692,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
   }
 
   function validateCcNumber(e, dontHideErrorFrame) {
-    cardNumber = (document.getElementById('cardNumber').value);
+    cardNumber = (document.getElementById('card.cardNumber').value);
 
     if(cardNumber.length <= previousCardNumber.length) {
       previousCardNumber = cardNumber;
@@ -757,7 +757,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
     result = result.replace(/\s+$/, ''); //remove trailing spaces
 
     previousCardNumber = result;
-    document.getElementById('cardNumber').value = result;
+    document.getElementById('card.cardNumber').value = result;
   }
 
   function setExtraCost(selectedCard, lookedUpCard) {
@@ -871,7 +871,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
 
   validationFunctions
   function doCCCheck(){
-    cardNumber = (document.getElementById('cardNumber').value);
+    cardNumber = (document.getElementById('card.cardNumber').value);
     reg = /\s+/g;
     cardNumber = cardNumber.replace(reg,'');
     if(!luhnCheck(cardNumber))
@@ -1008,7 +1008,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
 <script type="text/javascript">
 //<![CDATA[
 
-  if(document.getElementById('cardNumber').value.length > 0) {
+  if(document.getElementById('card.cardNumber').value.length > 0) {
     var validateCcNumberTimer = setTimeout('validateCcNumber(null,true)', 2500);
   }
 
