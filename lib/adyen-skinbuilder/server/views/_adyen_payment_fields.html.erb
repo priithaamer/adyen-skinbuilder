@@ -191,7 +191,7 @@
             }
 
             function validateCcNumber(e, dontHideErrorFrame) {
-              cardNumber = (document.getElementById('cardNumber').value);
+              cardNumber = (document.getElementById('card.cardNumber').value);
 
               if(cardNumber.length <= previousCardNumber.length) {
                 previousCardNumber = cardNumber;
@@ -256,7 +256,7 @@
               result = result.replace(/\s+$/, ''); //remove trailing spaces
 
               previousCardNumber = result;
-              document.getElementById('cardNumber').value = result;
+              document.getElementById('card.cardNumber').value = result;
             }
 
             function setExtraCost(selectedCard, lookedUpCard) {
@@ -345,7 +345,7 @@
 
             function ccNumberPresentation(valid, dontHideErrorFrame){
               var errors = new Array();
-              errors.push("cardNumber");
+              errors.push("card.cardNumber");
               if(valid){
                 clearErrors(errors, dontHideErrorFrame);
               }
@@ -385,7 +385,7 @@
 
             validationFunctions
             function doCCCheck(){
-              cardNumber = (document.getElementById('cardNumber').value);
+              cardNumber = (document.getElementById('card.cardNumber').value);
               reg = /\s+/g;
               cardNumber = cardNumber.replace(reg,'');
               if(!luhnCheck(cardNumber))
@@ -432,11 +432,11 @@
       </tr>
       <tr id="cardNumberTr">
         <td><div>Card number</div></td>
-        <td><div class="fieldDiv"><input type="text" class="inputField" id="cardNumber" onkeypress="return blockNonNumbers(event)" onkeyup="validateCcNumber(event)" onblur="validateCcNumber(event)" onchange="doCCCheck()" name="cardNumber" value="" size="24" maxlength="23" /></div></td>
+        <td><div class="fieldDiv"><input type="text" class="inputField" id="card.cardNumber" onkeypress="return blockNonNumbers(event)" onkeyup="validateCcNumber(event)" onblur="validateCcNumber(event)" onchange="doCCCheck()" name="card.cardNumber" value="" size="24" maxlength="23" /></div></td>
       </tr>
       <tr>
         <td><div>Card holder name</div></td>
-        <td><div class="fieldDiv"><input type="text" class="inputField" id="cardHolderName" name="cardHolderName" value="" size="19" maxlength="30" /></div></td>
+        <td><div class="fieldDiv"><input type="text" class="inputField" id="card.cardHolderName" name="card.cardHolderName" value="" size="19" maxlength="30" /></div></td>
       </tr>
       <tr id="cardIssueNumber" style="display: none">
         <td><div>Issue Number</div></td>
@@ -445,7 +445,7 @@
       <tr id="cardStartDate" style="display: none">
         <td><div>Start Date</div></td>
         <td><div class="fieldDiv">
-            <select class="inputField" name="startMonth" id="startMonth" size="1">
+            <select class="inputField" name="card.startMonth" id="card.startMonth" size="1">
             <option value="*"></option>
             <option value="01">01</option>
             <option value="02">02</option>
@@ -461,26 +461,19 @@
             <option value="12">12</option>
             </select>
              &nbsp;/&nbsp;
-            <select class="inputField" name="startYear" id="startYear" size="1">
+            <select class="inputField" name="card.startYear" id="card.startYear" size="1">
             <option value="*"></option>
-            <option value="2011">2011</option>
-            <option value="2010">2010</option>
-            <option value="2009">2009</option>
-            <option value="2008">2008</option>
-            <option value="2007">2007</option>
-            <option value="2006">2006</option>
-            <option value="2005">2005</option>
-            <option value="2004">2004</option>
-            <option value="2003">2003</option>
-            <option value="2002">2002</option>
+            <% 10.times do |i| %>
+              <option value="<%= year = Date.today.year - i %>"><%= year %></option>
+            <% end %>
             </select>
             </div>
         </td>
       </tr>
       <tr>
         <td><div>Card expiry date</div></td><td>
-        <div class="fieldDiv">
-        <select class="inputField" name="expiryMonth" id="expiryMonth" size="1">
+        <div class="fieldDiv" id="card.expiryContainer">
+        <select class="inputField" name="card.expiryMonth" id="card.expiryMonth" size="1">
         <option value="*"></option>
         <option  value="01">01</option>
         <option  value="02">02</option>
@@ -496,32 +489,18 @@
         <option  value="12">12</option>
         </select>
          &nbsp;/&nbsp;
-        <select class="inputField" name="expiryYear" id="expiryYear" size="1">
+        <select class="inputField" name="card.expiryYear" id="card.expiryYear" size="1">
         <option value="*"></option>
-        <option  value="2011">2011</option>
-        <option  value="2012">2012</option>
-        <option  value="2013">2013</option>
-        <option  value="2014">2014</option>
-        <option  value="2015">2015</option>
-        <option  value="2016">2016</option>
-        <option  value="2017">2017</option>
-        <option  value="2018">2018</option>
-        <option  value="2019">2019</option>
-        <option  value="2020">2020</option>
-        <option  value="2021">2021</option>
-        <option  value="2022">2022</option>
-        <option  value="2023">2023</option>
-        <option  value="2024">2024</option>
-        <option  value="2025">2025</option>
-        <option  value="2026">2026</option>
-        <option  value="2027">2027</option>
+        <% 15.times do |i| %>
+          <option value="<%= year = Date.today.year + i %>"><%= year %></option>
+        <% end %>
         </select>
         </div>
         </td>
       </tr>
       <tr>
         <td><div id="cvcName">CVC/CVV/CID</div></td>
-        <td><div class="fieldDiv"><input class="inputField" type="text" name="cvcCode"  value="" id="cvcCode" size="7" maxlength="3" /> &nbsp; <a href="#"  onclick="return toggleElement('cvcFrame');"><span id="cvcWhatIs">What is CVC/CVV/CID?</span></a></div></td>
+        <td><div class="fieldDiv"><input class="inputField" type="text" name="card.cvcCode"  value="" id="card.cvcCode" size="7" maxlength="3" /> &nbsp; <a href="#"  onclick="return toggleElement('cvcFrame');"><span id="cvcWhatIs">What is CVC/CVV/CID?</span></a></div></td>
       </tr>
       <tr>
         <td colspan="2"><div class="r">
@@ -545,7 +524,7 @@
         // find out what the CSS implementation calls the tr "display" value
         var cssTr = document.getElementById('cardNumberTr').style.display;
 
-        if(document.getElementById('cardNumber').value.length > 0) {
+        if(document.getElementById('card.cardNumber').value.length > 0) {
           var validateCcNumberTimer = setTimeout('validateCcNumber(null,true)', 2500);
         }
 
@@ -713,7 +692,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
   }
 
   function validateCcNumber(e, dontHideErrorFrame) {
-    cardNumber = (document.getElementById('cardNumber').value);
+    cardNumber = (document.getElementById('card.cardNumber').value);
 
     if(cardNumber.length <= previousCardNumber.length) {
       previousCardNumber = cardNumber;
@@ -778,7 +757,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
     result = result.replace(/\s+$/, ''); //remove trailing spaces
 
     previousCardNumber = result;
-    document.getElementById('cardNumber').value = result;
+    document.getElementById('card.cardNumber').value = result;
   }
 
   function setExtraCost(selectedCard, lookedUpCard) {
@@ -892,7 +871,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
 
   validationFunctions
   function doCCCheck(){
-    cardNumber = (document.getElementById('cardNumber').value);
+    cardNumber = (document.getElementById('card.cardNumber').value);
     reg = /\s+/g;
     cardNumber = cardNumber.replace(reg,'');
     if(!luhnCheck(cardNumber))
@@ -1029,7 +1008,7 @@ errorMessages["card"]["generic"] = "Please enter your card details";
 <script type="text/javascript">
 //<![CDATA[
 
-  if(document.getElementById('cardNumber').value.length > 0) {
+  if(document.getElementById('card.cardNumber').value.length > 0) {
     var validateCcNumberTimer = setTimeout('validateCcNumber(null,true)', 2500);
   }
 

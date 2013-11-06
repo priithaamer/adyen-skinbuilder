@@ -15,16 +15,20 @@ module Adyen
       dir = File.dirname(File.expand_path(__FILE__))
 
       set :views, "#{dir}/server/views"
-      
+
       # method will be overwritten by _vegas_ if skin directory given
       def self.skins_directory
         File.expand_path(".")
       end
 
+      def self.skins_directory=(dir)
+        @@skins_directory = dir
+      end
+
       def self.adyen_admin_cfg
         nil
       end
-      
+
       def skins_directory
         @@skins_directory ||= begin
           # check if it's a skin, if so use dirname
@@ -65,10 +69,10 @@ module Adyen
       helpers Helper::Render, Helper::Adyen
 
       before do
-        if settings.i18n_path
+        if settings.respond_to?(:i18n_path) && settings.i18n_path
           @locale = params.fetch('locale', 'en')
           @locale_suffix = "_#{@locale}"
-          
+
           I18n.load_path = Dir[File.join(settings.i18n_path, '*yml')]
           I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
           I18n.locale = @locale
@@ -127,7 +131,7 @@ module Adyen
         if @skin = Adyen::Admin::Skin.find(skin_code)
           @locale_suffix = ''
           @skin.compile(render_skin(@skin))
-          
+
           I18n.available_locales.each do |locale|
             I18n.locale = locale
             @locale_suffix = "_#{locale}"
@@ -160,7 +164,7 @@ module Adyen
         Adyen::Admin::Skin.default_path = skins_directory
         @skins = Adyen::Admin::Skin.all
         @adyen_admin_cfg = settings.adyen_admin_cfg
-        
+
         erb 'index.html'.to_sym, :layout => false
       end
     end
