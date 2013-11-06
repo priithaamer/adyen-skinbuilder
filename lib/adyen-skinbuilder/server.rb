@@ -137,7 +137,7 @@ module Adyen
             @locale_suffix = "_#{locale}"
             @skin.compile(render_skin(@skin))
           end
-          send_file(@skin.compress)
+          send_file(@skin.compress, :filename => "#{skin_code}.zip")
         else
           redirect '/'
         end
