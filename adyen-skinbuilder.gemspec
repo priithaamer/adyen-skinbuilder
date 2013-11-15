@@ -19,8 +19,4 @@ Gem::Specification.new do |s|
   %w(sinatra sinatra-contrib vegas i18n adyen-admin).each do |gem|
     s.add_runtime_dependency *gem.split(' ')
   end
-
-  %w(rake rspec guard-rspec rack-test).each do |gem|
-    s.add_development_dependency *gem.split(' ')
-  end
 end

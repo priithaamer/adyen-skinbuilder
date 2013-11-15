@@ -110,6 +110,10 @@ describe 'SkinBuilder server' do
         it 'responds with 200 status' do
           last_response.status.should == 200
         end
+
+        it "includes default_data" do
+          last_response.body.include?("dummy_default_data")
+        end
       end
     end
 
