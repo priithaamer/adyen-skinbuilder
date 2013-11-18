@@ -5,3 +5,4 @@
 :version: 32
 :version_live: 0
 :version_test: 31
+:default_data: dummy_default_data

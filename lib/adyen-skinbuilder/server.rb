@@ -15,6 +15,7 @@ module Adyen
       dir = File.dirname(File.expand_path(__FILE__))
 
       set :views, "#{dir}/server/views"
+      set :server, 'webrick'
 
       # method will be overwritten by _vegas_ if skin directory given
       def self.skins_directory
@@ -59,10 +60,11 @@ module Adyen
         end
       end
 
-      def render_skin(skin)
+      def render_skin(skin, locals = {})
         erb(skin_erb_file(skin).to_sym, {
           :views => '/',
-          :layout => File.join(settings.views, "layout.html").to_sym
+          :layout => File.join(settings.views, "layout.html").to_sym,
+          :locals => locals,
         })
       end
 
@@ -82,10 +84,12 @@ module Adyen
       end
 
       get '/sf/:skin_code/*' do |skin_code, path|
-        if (skin = Adyen::Admin::Skin.find(skin_code)) && (file = skin.get_file(path)) && File.exists?(file)
-          send_file file
-        elsif (file = File.join(skins_directory, "base", path)) && File.exists?(file)
-          send_file file
+        if skin = Adyen::Admin::Skin.find(skin_code)
+          if (file = skin.get_file(path)) && File.exists?(file)
+            send_file file
+          elsif (file = File.join(skins_directory, skin.parent_skin, path)) && File.exists?(file)
+            send_file file
+          end
         end
       end
 
@@ -137,7 +141,7 @@ module Adyen
             @locale_suffix = "_#{locale}"
             @skin.compile(render_skin(@skin))
           end
-          send_file(@skin.compress)
+          send_file(@skin.compress, :filename => "#{skin_code}.zip")
         else
           redirect '/'
         end
@@ -153,7 +157,7 @@ module Adyen
       # skin page
       get '/:skin_code' do |skin_code|
         if @skin = Adyen::Admin::Skin.find(skin_code)
-          render_skin @skin
+          render_skin @skin, { :default_data => @skin.default_data }
         else
           redirect '/'
         end
