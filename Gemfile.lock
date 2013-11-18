@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    adyen-skinbuilder (0.4.1)
+    adyen-skinbuilder (0.4.2)
       adyen-admin
       i18n
       sinatra
