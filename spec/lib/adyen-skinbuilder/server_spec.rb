@@ -97,7 +97,7 @@ describe 'SkinBuilder server' do
       end
 
       it 'returns adyen form' do
-        last_response.body.should include('<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">')
+        last_response.body.should include('<form id="pageform" action="#" method="post"')
       end
 
       it 'returns order data' do

@@ -1,11 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><%= @skin.code %> - Adyen-Skinbuilder</title>
 
-    <link rel="stylesheet" media="screen" type="text/css" href="/hpp/css/reset.css" />
-
+    <link rel="shortcut icon" href="/sf/<%= @skin.code %>/img/favicon.ico" />
+    
+    <link rel="stylesheet" type="text/css" href="/hpp/css/reset.css" />
     <link rel="stylesheet" media="screen" type="text/css" href="/sf/<%= @skin.code %>/css/screen.css" />
     <link rel="stylesheet" media="print" type="text/css" href="/sf/<%= @skin.code %>/css/print.css" />
 
@@ -17,10 +19,10 @@
   </head>
   <body>
     <script type="text/javascript">
-    //<![CDATA[
+    //<![CDATA[ 
       var clientIPAddress = "127.0.0.1";
       var config = new Array();
-      config["pmmanimation"] = 0;
+      config["pmmanimation"] = 2;
     //]]>
     </script>
 
@@ -29,6 +31,6 @@
     <%= yield %>
 
     <!-- ### -->
-
+    
   </body>
 </html>
