@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'fileutils'
+require 'net/http'
+
 require 'sinatra/base'
 require 'adyen-skinbuilder/helper/adyen'
 require 'adyen-skinbuilder/helper/render'
@@ -96,8 +99,16 @@ module Adyen
       get '/hpp/*' do |path|
         send_file File.join(settings.views, path).tap { |file|
           if !File.exists?(file)
-            `mkdir -p #{File.dirname(file)}`
-            `wget https://test.adyen.com/hpp/#{path} -O #{file}`
+            uri = URI.parse("https://test.adyen.com/hpp/#{path}")
+            connection = Net::HTTP.new(uri.host, uri.port)
+            connection.use_ssl = uri.is_a?(URI::HTTPS)
+            request = Net::HTTP::Get.new(uri.request_uri)
+            response = connection.request(request)
+            
+            FileUtils.mkdir_p(File.dirname(file))
+            File.open(file, "w") do |io|
+              io.write response.body
+            end
           end
         }
       end
@@ -117,8 +128,8 @@ module Adyen
         if @skin = Adyen::Admin::Skin.find(skin_code)
           @skin.download.tap do |zip_file|
             @skin.decompile(zip_file)
-            `cp #{skin_erb_file(@skin)}.erb #{@skin.path}`
-            `rm -f #{zip_file}`
+            FileUtils.cp("#{skin_erb_file(@skin)}.erb", @skin.path)
+            FileUtils.rm_f(zip_file)
           end
         end
         redirect '/'
