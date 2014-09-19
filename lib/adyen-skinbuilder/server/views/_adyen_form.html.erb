@@ -1,34 +1,29 @@
 <!-- ### -->
 
-<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">
-  <script type="text/javascript">
-    //<![CDATA[
-    if (notNull(document.getElementById('pageform'))) {
-      document.getElementById('pageform').setAttribute("autocomplete","off");
-    }
-    //]]>
-  </script>
+<form id="pageform" action="#" method="post" autocomplete="off" onsubmit="return formValidate(this, 'default');">
+
   <div id="content">
-    <div id="pmcontent">
 
-      <!-- ### inc/pmheader<%= @locale_suffix %> -->
+    <!-- ### inc/pmheader<%= @locale_suffix %> -->
 
-      <%= adyen_payment_fields(&block) %>
+    <%= adyen_payment_fields(&block) %>
 
-      <!-- ### -->
+    <!-- ### -->
 
-    </div>
   </div>
+
   <div id="foot">
     <div id="footc">
       <div id="nextstep">
-        <div id="nextstepc">Next Step Text</div>
+        <div id="nextstepc">Next Step: Enter your Payment Details</div>
       </div>
-      <div id="footerb1div">
-        <input onclick="" type="submit" id="mainSubmit" value="continue" class="footerB nextB" />
-      </div>
+
       <div id="footerb2div">
-        <input onclick="" type="button" id="mainBack" value="previous" class="footerB backB" />
+        <input name="next" id="mainSubmit" value="continue" type="submit" class="hideforprint footerB nextB" />
+      </div>
+
+      <div id="footerb1div">
+        <input onclick="this.blur(); prepareForBack();" name="back" id="mainBack" value="previous" type="submit" class="hideforprint footerB backB" />
       </div>
     </div>
   </div>
