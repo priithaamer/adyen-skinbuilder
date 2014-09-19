@@ -12,11 +12,14 @@
   * auto concatinate multiple .css files
   * auto build example PaymentMethod skeleton
 
+## v0.4.3
+ * update views and assets by @DouweM (#19)
+
 ## v0.4.2
   * lastes adyen-admin which fixes upload
   * compress includes the skincode in filename
   * pass default_data to skin
-  * support new CSS selectors by @jigfox (https://github.com/priithaamer/adyen-skinbuilder/pull/17)
+  * support new CSS selectors by @jigfox (#17)
 
 ## v0.3.1
   * feature: see remote version
